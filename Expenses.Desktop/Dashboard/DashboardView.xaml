@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Expenses.UI.Dashboard.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:Expenses.UI.Common"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+             xmlns:local="clr-namespace:Expenses.UI.Dashboard"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{dxmvvm:ViewModelSource Type={x:Type local:DashboardViewModel}}"
+             d:DesignHeight="500"
+             d:DesignWidth="900"
+             mc:Ignorable="d">
+    <DockPanel>
+        <dxr:RibbonControl DockPanel.Dock="Top"
+                           RibbonStyle="Office2010">
+            <dxr:RibbonDefaultPageCategory Caption="Default Category">
+                <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}" />
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+
+        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom" />
+
+        <dxlc:LayoutControl>
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup Header="Alimentation de caisse"
+                                  View="GroupBox">
+                    <dxga:DigitalGaugeControl Text="{Binding WithdrawalsTotal}" />
+                </dxlc:LayoutGroup>
+
+                <dxlc:LayoutGroup Header="Dépenses Réglées"
+                                  View="GroupBox">
+                    <dxga:DigitalGaugeControl Text="{Binding ExpensesTotal}" />
+                </dxlc:LayoutGroup>
+
+                <dxlc:LayoutGroup Header="Dépenses Non-réglées"
+                                  View="GroupBox">
+                    <dxga:DigitalGaugeControl Text="{Binding UntreatedExpensesTotal}" />
+                </dxlc:LayoutGroup>
+
+                <dxlc:LayoutGroup Header="Caisse"
+                                  View="GroupBox">
+                    <dxga:DigitalGaugeControl Text="{Binding Balance}" />
+                </dxlc:LayoutGroup>
+
+                <dxlc:LayoutGroup Header="Caisse (Disponible)"
+                                  View="GroupBox">
+                    <dxga:DigitalGaugeControl Text="{Binding RealBalance}" />
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            
+            <dxlc:LayoutGroup Header="Charts" View="GroupBox" dxlc:LayoutControl.AllowHorizontalSizing="True">
+                <dxlc:LayoutItem Label="LayoutItem">
+                    <dxe:TextEdit/>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutControl>
+    </DockPanel>
+</UserControl>

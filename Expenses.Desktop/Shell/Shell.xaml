@@ -1,0 +1,134 @@
+﻿<dxr:DXRibbonWindow x:Class="Expenses.UI.Shell.Shell"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:common="clr-namespace:Expenses.UI.Common"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+                    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+                    xmlns:dxwuinav="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
+                    xmlns:exercises="clr-namespace:Expenses.UI.Exercises"
+                    xmlns:local="clr-namespace:Expenses.UI.Shell"
+                    xmlns:users="clr-namespace:Expenses.UI.Users"
+                    xmlns:dashboard="clr-namespace:Expenses.UI.Dashboard"
+                    xmlns:spending="clr-namespace:Expenses.UI.Spending"
+                    xmlns:withdrawals="clr-namespace:Expenses.UI.Withrdawals"
+                    x:Name="ShellWindow"
+                    Title="{Binding Title}"
+                    Width="725"
+                    Height="450"
+                    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:ShellViewModel}}"
+                    Icon="{dx:DXImageOffice2013 Image=KPI_32x32.png}"
+                    WindowState="Maximized"
+                    dx:ThemeManager.ThemeName="Office2016Colorful">
+
+    <dxr:DXRibbonWindow.Resources>
+        <dxmvvm:FormatStringConverter x:Key="MonthConverter"
+                                      FormatString="y" />
+    </dxr:DXRibbonWindow.Resources>
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand Command="{Binding InitializeCommand}"
+                               EventName="Initialized" />
+        <dxmvvm:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded"/>
+        <dxmvvm:CurrentWindowService Window="{Binding ElementName=ShellWindow}" />
+
+        <dx:DialogService Name="LoginDialogService"
+                          DialogStyle="{StaticResource DialogStyle}"
+                          DialogWindowStartupLocation="CenterScreen"
+                          SetWindowOwner="False">
+            <dx:DialogService.ViewTemplate>
+                <DataTemplate>
+                    <users:LoginView />
+                </DataTemplate>
+            </dx:DialogService.ViewTemplate>
+        </dx:DialogService>
+
+        <dx:DialogService Name="ExerciseDialogService"
+                          DialogStyle="{StaticResource DialogStyle}"
+                          DialogWindowStartupLocation="CenterScreen"
+                          SetWindowOwner="False">
+            <dx:DialogService.ViewTemplate>
+                <DataTemplate>
+                    <exercises:ExerciseView />
+                </DataTemplate>
+            </dx:DialogService.ViewTemplate>
+        </dx:DialogService>
+
+        <dx:DXSplashScreenService ShowSplashScreenOnLoading="False"
+                                  SplashScreenType="{x:Type common:SplashScreen}"
+                                  State="Chargement..." />
+
+        <dx:DXMessageBoxService/>
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel>
+        <dxr:RibbonControl DockPanel.Dock="Top"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="True"
+                           ToolbarShowMode="Hide">
+
+            <dxr:RibbonControl.ApplicationMenu>
+                <local:BackstageView />
+            </dxr:RibbonControl.ApplicationMenu>
+
+            <!--<dxr:RibbonControl.ToolbarItems>
+                <dxb:BarButtonItemLink BarItemName="BtnWithdrawals" />
+                <dxb:BarButtonItemLink BarItemName="BtnExpenses" />
+            </dxr:RibbonControl.ToolbarItems>-->
+
+            <dxr:RibbonDefaultPageCategory>
+                <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}">
+                    <dxr:RibbonPageGroup Caption="Modules">
+                        <dxb:BarButtonItem Command="{Binding NavigateCommand}"
+                                           CommandParameter="{x:Type dashboard:DashboardView}"
+                                           Content="Tableau de bord"
+                                           Glyph="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=GaugeStyleFullCircular_32x32.png}" />
+
+                        <dxb:BarItemSeparator />
+
+                        <dxb:BarButtonItem x:Name="BtnWithdrawals"
+                                           Command="{Binding NavigateCommand}"
+                                           CommandParameter="{x:Type withdrawals:WithdrawalsView}"
+                                           Content="Alimentation de caisse"
+                                           Glyph="{dx:DXImage Image=Accounting_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=Accounting_32x32.png}" />
+
+                        <dxb:BarButtonItem x:Name="BtnExpenses"
+                                           Command="{Binding NavigateCommand}"
+                                           CommandParameter="{x:Type spending:ExpensesView}"
+                                           Content="Gestion des dépenses"
+                                           Glyph="{dx:DXImage Image=BOSaleItem_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=BOSaleItem_32x32.png}" />
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+
+        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
+            <dxr:RibbonStatusBarControl.RightItems>
+                <dxb:BarStaticItem Content="{Binding Session.Identity.Fullname,
+                                                     Mode=OneWay,
+                                                     UpdateSourceTrigger=PropertyChanged}"
+                                   Glyph="{dx:DXImageOffice2013 Image=Customer_16x16.png}" />
+                <dxb:BarItemSeparator />
+                <dxb:BarStaticItem Content="{Binding Session.Exercise.Date,
+                                                     Mode=OneWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     Converter={StaticResource MonthConverter}}"
+                                   Glyph="{dx:DXImageOffice2013 Image=MonthView_16x16.png}" />
+            </dxr:RibbonStatusBarControl.RightItems>
+        </dxr:RibbonStatusBarControl>
+
+        <dxwui:NavigationFrame AnimationDelay="0"
+                               AnimationType="None">
+            <dxmvvm:Interaction.Behaviors>
+                <!--<dx:DXSplashScreenService SplashScreenStartupLocation="CenterOwner"
+                                          SplashScreenType="{x:Type common:NavigationSplashScreen}" />-->
+                <dxwuinav:FrameNavigationService ShowSplashScreen="False" />
+            </dxmvvm:Interaction.Behaviors>
+        </dxwui:NavigationFrame>
+    </DockPanel>
+</dxr:DXRibbonWindow>

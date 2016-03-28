@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Expenses.UI.Withrdawals.WithdrawalView"
+             xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:withrdawals="clr-namespace:Expenses.UI.Withrdawals"
+             d:DataContext="{dxmvvm:ViewModelSource Type={x:Type withrdawals:WithdrawalViewModel}}"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DXMessageBoxService />
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel>
+        <dxr:RibbonControl AllowCustomization="False"
+                           DockPanel.Dock="Top"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="False"
+                           ToolbarShowMode="Hide">
+
+            <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
+                <dxr:RibbonPage Caption="Menu">
+
+                    <dxr:RibbonPageGroup>
+                        <!--<dxb:BarButtonItem Command="{Binding SaveCommand}" IsVisible="False"
+                                           Content="Enregistrer"
+                                           Glyph="{dx:DXImageOffice2013 Image=Save_16x16.png}"
+                                           LargeGlyph="{dx:DXImageOffice2013 Image=Save_32x32.png}" />-->
+
+                        <dxb:BarButtonItem Command="{Binding SaveAndCloseCommand}"
+                                           Content="Enregistrer et fermer"
+                                           Glyph="{dx:DXImageOffice2013 Image=SaveAndClose_16x16.png}"
+                                           LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndClose_32x32.png}" />
+
+                        <dxb:BarButtonItem Command="{Binding SaveAndNewCommand}"
+                                           Content="Enregistrer et Ajouter"
+                                           Glyph="{dx:DXImageOffice2013 Image=SaveAndNew_16x16.png}"
+                                           LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndNew_32x32.png}" />
+
+                        <!--<dxb:BarItemSeparator />-->
+
+                        <dxb:BarButtonItem Command="{Binding CloseCommand}"
+                                           Content="Fermer"
+                                           Glyph="{dx:DXImageOffice2013 Image=Close_16x16.png}"
+                                           IsVisible="False"
+                                           LargeGlyph="{dx:DXImageOffice2013 Image=Close_32x32.png}" />
+                    </dxr:RibbonPageGroup>
+
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+
+        <dxlc:LayoutControl IsEnabled="{Binding Entity,
+                                                Converter={dxmvvm:ObjectToBooleanConverter}}"
+                            ItemSpace="10"
+                            Orientation="Vertical">
+
+            <dxlc:LayoutItem Label="Date de réception:">
+                <dxe:DateEdit EditValue="{Binding Entity.Date,
+                                                  Mode=TwoWay,
+                                                  UpdateSourceTrigger=PropertyChanged}"
+                              MaxValue="{Binding Session.Exercise.EndDate,
+                                                 Mode=OneWay}"
+                              MinValue="{Binding Session.Exercise.StartDate,
+                                                 Mode=OneWay}"
+                              ShowClearButton="False"
+                              ShowToday="True" />
+            </dxlc:LayoutItem>
+
+            <dxlc:LayoutItem Label="Nom et prénom:">
+                <dxe:TextEdit EditValue="{Binding Entity.Name}"
+                              IsReadOnly="True" />
+            </dxlc:LayoutItem>
+
+            <dxlc:LayoutItem Label="Montant reçu:">
+                <dxe:SpinEdit HorizontalContentAlignment="Left"
+                              EditValue="{Binding Entity.Amount,
+                                                  Mode=TwoWay,
+                                                  UpdateSourceTrigger=PropertyChanged}"
+                              Mask="n2"
+                              MaskUseAsDisplayFormat="True"
+                              MinValue="0">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:FocusBehavior />
+                    </dxmvvm:Interaction.Behaviors>
+                </dxe:SpinEdit>
+            </dxlc:LayoutItem>
+        </dxlc:LayoutControl>
+
+    </DockPanel>
+
+</UserControl>

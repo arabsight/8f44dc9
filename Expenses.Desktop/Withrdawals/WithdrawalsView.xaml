@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="Expenses.UI.Withrdawals.WithdrawalsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+             xmlns:local="clr-namespace:Expenses.UI.Withrdawals"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WithdrawalsViewModel}}"
+             xmlns:common="clr-namespace:Expenses.UI.Common"
+             d:DesignHeight="500"
+             d:DesignWidth="900"
+             mc:Ignorable="d">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DXMessageBoxService />
+        <dx:WindowedDocumentUIService DocumentShowMode="Dialog"
+                                      WindowStartupLocation="CenterOwner"
+                                      WindowType="{x:Type dxr:DXRibbonWindow}">
+            <dx:WindowedDocumentUIService.WindowStyle>
+                <Style TargetType="{x:Type dxr:DXRibbonWindow}">
+                    <Setter Property="Width" Value="500" />
+                    <Setter Property="Height" Value="500" />
+                    <Setter Property="ShowIcon" Value="False" />
+                </Style>
+            </dx:WindowedDocumentUIService.WindowStyle>
+        </dx:WindowedDocumentUIService>
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel>
+        <dxr:RibbonControl AllowCustomization="False"
+                           DockPanel.Dock="Top"
+                           RibbonStyle="Office2010">
+            <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
+                <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}">
+                    <dxr:RibbonPageGroup Caption="{x:Static common:Names.WithdrawalTasks}">
+                        <dxb:BarButtonItem Command="{Binding NewCommand}"
+                                           Content="Nouveau"
+                                           Glyph="{dx:DXImage Image=New_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=New_32x32.png}" />
+
+                        <dxb:BarButtonItem Command="{Binding EditCommand}"
+                                           CommandParameter="{Binding SelectedEntity}"
+                                           Content="Modifier"
+                                           Glyph="{dx:DXImage Image=Edit_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=Edit_32x32.png}" />
+
+                        <dxb:BarButtonItem Command="{Binding DeleteCommand}"
+                                           CommandParameter="{Binding SelectedEntity}"
+                                           Content="Supprimer"
+                                           Glyph="{dx:DXImage Image=DeleteList_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=DeleteList_32x32.png}" />
+
+                        <dxb:BarItemSeparator />
+
+                        <dxb:BarButtonItem Command="{Binding TableViewCommands.ShowPrintPreviewDialog,
+                                                             ElementName=TableView}"
+                                           Content="Aperçu de la table"
+                                           Glyph="{dx:DXImage Image=PrintArea_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=PrintArea_32x32.png}" />
+                    </dxr:RibbonPageGroup>
+
+                    <dxr:RibbonPageGroup Caption="{x:Static common:Names.ReportsCaption}">
+                        <dxb:BarButtonItem Command="{Binding ShowMonthlyReportCommand}"
+                                           Content="État du mois en cours"
+                                           Glyph="{dx:DXImageOffice2013 Image=MonthView_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=MonthView_32x32.png}" />
+
+                        <dxb:BarItemSeparator />
+
+                        <dxb:BarEditItem Content="Du:"
+                                         EditValue="{Binding StartDate,
+                                                             Mode=TwoWay,
+                                                             UpdateSourceTrigger=PropertyChanged}"
+                                         EditWidth="120">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:DateEditSettings MaxValue="{Binding Session.Exercise.EndDate}"
+                                                      MinValue="{Binding Session.Exercise.StartDate}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+
+                        <dxb:BarEditItem Content="Au:"
+                                         EditValue="{Binding FinishDate,
+                                                             Mode=TwoWay,
+                                                             UpdateSourceTrigger=PropertyChanged}"
+                                         EditWidth="120">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:DateEditSettings MaxValue="{Binding Session.Exercise.EndDate}"
+                                                      MinValue="{Binding Session.Exercise.StartDate}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+
+                        <dxb:BarButtonItem Command="{Binding ShowCustomReportCommand}"
+                                           Content="Aperçu d'état personnalisé"
+                                           Glyph="{dx:DXImage Image=Preview_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=Preview_32x32.png}" />
+
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+
+        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
+            <dxr:RibbonStatusBarControl.LeftItems>
+                <dxb:BarStaticItem AllowGlyphTheming="True"
+                                   Content="{Binding Entities.Count,
+                                                     Converter={dxmvvm:FormatStringConverter FormatString='N° de lignes: {0}'}}" />
+            </dxr:RibbonStatusBarControl.LeftItems>
+        </dxr:RibbonStatusBarControl>
+
+        <dxg:GridControl ItemsSource="{Binding Entities}"
+                         SelectedItem="{Binding SelectedEntity}"
+                         SelectionMode="Row">
+
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand Command="{Binding EditCommand}"
+                                       EventName="MouseDoubleClick"
+                                       MarkRoutedEventsAsHandled="True"
+                                       PassEventArgsToCommand="True">
+                    <dxmvvm:EventToCommand.EventArgsConverter>
+                        <dx:EventArgsToDataRowConverter />
+                    </dxmvvm:EventToCommand.EventArgsConverter>
+                </dxmvvm:EventToCommand>
+            </dxmvvm:Interaction.Behaviors>
+
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Date"
+                                IsSmart="True" />
+                <dxg:GridColumn FieldName="Name"
+                                Header="Nom et Prénom"
+                                IsSmart="True" />
+                <dxg:GridColumn FieldName="Amount"
+                                Header="Montant"
+                                IsSmart="True">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Right"
+                                              Mask="n2"
+                                              MaskType="Numeric"
+                                              MaskUseAsDisplayFormat="True" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+
+            <dxg:GridControl.TotalSummary>
+                <dxg:GridSummaryItem Alignment="Right"
+                                     DisplayFormat="n2"
+                                     FieldName="Amount"
+                                     ShowInColumn="Amount"
+                                     SummaryType="Sum" />
+            </dxg:GridControl.TotalSummary>
+
+            <dxg:GridControl.GroupSummary>
+                <dxg:GridSummaryItem DisplayFormat="n2"
+                                     FieldName="Amount"
+                                     SummaryType="Sum" />
+            </dxg:GridControl.GroupSummary>
+
+            <dxg:GridControl.View>
+                <dxg:TableView Name="TableView"
+                               AllowEditing="False"
+                               AllowPerPixelScrolling="True"
+                               AutoWidth="True"
+                               ShowFixedTotalSummary="True">
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <dxb:BarButtonItem Command="{Binding View.DataContext.NewCommand}"
+                                           Content="New"
+                                           Glyph="{dx:DXImageOffice2013 Image=New_16x16.png}" />
+                        <dxb:BarButtonItem Command="{Binding View.DataContext.EditCommand}"
+                                           CommandParameter="{Binding Row.Row}"
+                                           Content="Edit"
+                                           Glyph="{dx:DXImageOffice2013 Image=Edit_16x16.png}" />
+                        <dxb:BarButtonItem Command="{Binding View.DataContext.DeleteCommand}"
+                                           CommandParameter="{Binding Row.Row}"
+                                           Content="Delete"
+                                           Glyph="{dx:DXImageOffice2013 Image=Delete_16x16.png}" />
+                        <dxb:BarButtonItem Command="{Binding View.DataContext.RefreshCommand}"
+                                           Content="Refresh"
+                                           Glyph="{dx:DXImageOffice2013 Image=Refresh_16x16.png}" />
+                    </dxg:TableView.RowCellMenuCustomizations>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </DockPanel>
+</UserControl>
