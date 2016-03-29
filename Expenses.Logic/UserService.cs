@@ -1,11 +1,14 @@
 ﻿using System;
 using Expenses.Core;
 using Expenses.Core.Shared;
+using Expenses.Logic.Validation;
 
 namespace Expenses.Logic
 {
     public class UserService : Service<User>
     {
+        public UserService() : base(UserValidator.Default) {}
+
         public static UserService Instance => new UserService();
 
         public IUser Identity { get; private set; }

@@ -1,6 +1,8 @@
-﻿using DevExpress.Mvvm.POCO;
+﻿using System.Collections.Generic;
+using DevExpress.Mvvm.POCO;
 using Expenses.Core;
 using Expenses.Logic;
+using Expenses.Logic.Helpers;
 using Expenses.UI.Common;
 
 namespace Expenses.UI.Dashboard
@@ -27,9 +29,23 @@ namespace Expenses.UI.Dashboard
         public virtual decimal Balance { get; set; }
         public virtual decimal RealBalance { get; set; }
 
+        public virtual List<ExpenseTotal> GlobalExpensesPerDate { get; set; }
+
+        public virtual List<ExpenseTotal> GlobalExpensesPerCategory { get; set; }
+        public virtual List<ExpenseTotal> MonthlyExpensesPerCategory { get; set; }
+
         public override void OnNavigatedTo()
         {
             CalculateTotals();
+            GetDataForCharts();
+        }
+
+        private void GetDataForCharts()
+        {
+            GlobalExpensesPerCategory = _expenses.GetGlobalTotalsByCategory();
+            MonthlyExpensesPerCategory = _expenses.GetMonthlyTotalsByCategory(Session.Exercise);
+
+            GlobalExpensesPerDate = _expenses.GetGlobalTotalsByDate();
         }
 
         private void CalculateTotals()

@@ -7,6 +7,8 @@ namespace Expenses.Logic
 {
     public class WithdrawalService : Service<Withdrawal>
     {
+        public WithdrawalService() : base(WithdrawalValidator.Default) {}
+
         public static WithdrawalService Instance => new WithdrawalService();
 
         public ObservableCollection<Withdrawal> GetByExercise(int exercise)
@@ -14,10 +16,10 @@ namespace Expenses.Logic
             return Get(e => e.ExerciseId == exercise);
         }
 
-        public void TrySave(Withdrawal entity)
-        {
-            Save(entity, WithdrawalValidator.Default);
-        }
+        //public void TrySave(Withdrawal entity)
+        //{
+        //    Save(entity, WithdrawalValidator.Default);
+        //}
 
         public decimal GetTotalByExercise(Exercise exercise)
         {

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:Expenses.UI.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
@@ -25,7 +26,9 @@
         <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom" />
 
         <dxlc:LayoutControl>
-            <dxlc:LayoutGroup Orientation="Vertical">
+            <dxlc:LayoutGroup Width="300"
+                              Orientation="Vertical"
+                              dxlc:LayoutControl.AllowHorizontalSizing="True">
                 <dxlc:LayoutGroup Header="Alimentation de caisse"
                                   View="GroupBox">
                     <dxga:DigitalGaugeControl Text="{Binding WithdrawalsTotal}" />
@@ -51,11 +54,76 @@
                     <dxga:DigitalGaugeControl Text="{Binding RealBalance}" />
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
-            
-            <dxlc:LayoutGroup Header="Charts" View="GroupBox" dxlc:LayoutControl.AllowHorizontalSizing="True">
-                <dxlc:LayoutItem Label="LayoutItem">
-                    <dxe:TextEdit/>
-                </dxlc:LayoutItem>
+
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup dxlc:LayoutControl.AllowVerticalSizing="True">
+                    <dxlc:LayoutGroup Header="Dépenses par catégorie (mensuels)"
+                                      View="GroupBox"
+                                      dxlc:LayoutControl.AllowHorizontalSizing="True">
+                        <dxc:ChartControl DataSource="{Binding MonthlyExpensesPerCategory}">
+                            <dxc:SimpleDiagram2D>
+                                <dxc:PieSeries2D ArgumentDataMember="Category"
+                                                 LabelsVisibility="True"
+                                                 ValueDataMember="Amount">
+                                    <dxc:PieSeries2D.Label>
+                                        <dxc:SeriesLabel ResolveOverlappingMode="JustifyAllAroundPoint"
+                                                         TextPattern="{}{A}: {VP:p2}"
+                                                         dxc:PieSeries.LabelPosition="TwoColumns" />
+                                    </dxc:PieSeries2D.Label>
+                                </dxc:PieSeries2D>
+                            </dxc:SimpleDiagram2D>
+                        </dxc:ChartControl>
+                    </dxlc:LayoutGroup>
+
+                    <dxlc:LayoutGroup Header="Dépenses par catégorie (globals)"
+                                      View="GroupBox">
+                        <dxc:ChartControl DataSource="{Binding GlobalExpensesPerCategory}">
+                            <dxc:SimpleDiagram2D>
+                                <dxc:PieSeries2D ArgumentDataMember="Category"
+                                                 LabelsVisibility="True"
+                                                 ValueDataMember="Amount">
+                                    <dxc:PieSeries2D.Label>
+                                        <dxc:SeriesLabel ResolveOverlappingMode="JustifyAllAroundPoint"
+                                                         TextPattern="{}{A}: {VP:p2}"
+                                                         dxc:PieSeries.LabelPosition="TwoColumns" />
+                                    </dxc:PieSeries2D.Label>
+                                </dxc:PieSeries2D>
+                            </dxc:SimpleDiagram2D>
+                        </dxc:ChartControl>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+
+                <dxlc:LayoutGroup Header="Dépenses"
+                                  View="GroupBox">
+                    <dxc:ChartControl>
+                        <dxc:ChartControl.CrosshairOptions>
+                            <dxc:CrosshairOptions ShowArgumentLabels="True"
+                                                  ShowValueLabels="True"
+                                                  ShowValueLine="True" />
+                        </dxc:ChartControl.CrosshairOptions>
+                        <dxc:XYDiagram2D EnableAxisXNavigation="True"
+                                         IsManipulationEnabled="True">
+                            <dxc:XYDiagram2D.NavigationOptions>
+                                <dxc:NavigationOptions />
+                            </dxc:XYDiagram2D.NavigationOptions>
+                            <dxc:XYDiagram2D.AxisX>
+                                <dxc:AxisX2D GridLinesMinorVisible="True"
+                                             GridLinesVisible="True">
+                                    <dxc:AxisX2D.DateTimeScaleOptions>
+                                        <dxc:AutomaticDateTimeScaleOptions />
+                                    </dxc:AxisX2D.DateTimeScaleOptions>
+                                </dxc:AxisX2D>
+                            </dxc:XYDiagram2D.AxisX>
+                            <dxc:XYDiagram2D.Series>
+                                <dxc:LineSeries2D ArgumentDataMember="Date"
+                                                  ArgumentScaleType="DateTime"
+                                                  CrosshairLabelPattern="{}{A:d} : {V:n2}"
+                                                  DataSource="{Binding GlobalExpensesPerDate}"
+                                                  ValueDataMember="Amount" />
+                            </dxc:XYDiagram2D.Series>
+                        </dxc:XYDiagram2D>
+                    </dxc:ChartControl>
+                </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
     </DockPanel>

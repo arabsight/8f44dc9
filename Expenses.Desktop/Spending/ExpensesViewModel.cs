@@ -38,10 +38,14 @@ namespace Expenses.UI.Spending
             {
                 case MessageType.Added:
                     var added = _expenses.Find(message.Entity.Id);
+                    if (added.Category == null)
+                        _expenses.LoadReference(added, e => e.Category);
                     Entities.Add(added);
                     break;
                 case MessageType.Modified:
                     _expenses.Reload(SelectedEntity);
+                    if (SelectedEntity.Category == null)
+                        _expenses.LoadReference(SelectedEntity, e => e.Category);
                     break;
                 case MessageType.Deleted:
                     break;
@@ -65,7 +69,7 @@ namespace Expenses.UI.Spending
 
         private void ShowDocument(Expense entity = null)
         {
-            var vm = ExpenseViewModel.Instance(Session, entity);
+            var vm = ExpenseViewModel.Instance(entity);
             var doc = DocumentManagerService.FindDocument(vm);
             if (doc == null)
             {
@@ -118,7 +122,7 @@ namespace Expenses.UI.Spending
             ShowReport(Entities);
         }
 
-        private void ShowReport(IEnumerable<Expense> entities)
+        private static void ShowReport(IEnumerable<Expense> entities)
         {
             using (var report = new MonthlyExpensesReport {DataSource = entities})
             {

@@ -11,10 +11,12 @@ namespace Expenses.Logic
     public abstract class Service<T> where T : class
     {
         private readonly ExpensesContext _context;
+        protected AbstractValidator<T> Validator;
         protected DbSet<T> DbSet { get; }
 
-        protected Service()
+        protected Service(AbstractValidator<T> validator)
         {
+            Validator = validator;
             _context = new ExpensesContext();
             DbSet = _context.Set<T>();
         }
@@ -63,14 +65,19 @@ namespace Expenses.Logic
             _context.Entry(entity).Reload();
         }
 
+        public void LoadReference(T entity, Expression<Func<T, object>> reference)
+        {
+            _context.Entry(entity).Reference(reference).Load();
+        }
+
         protected int Save()
         {
             return _context.SaveChanges();
         }
 
-        protected virtual void Save(T entity, AbstractValidator<T> validator)
+        public virtual void Save(T entity)
         {
-            var result = validator.Validate(entity);
+            var result = Validator.Validate(entity);
             if(result.IsValid)
             {
                 _context.SaveChanges();
@@ -82,11 +89,6 @@ namespace Expenses.Logic
                 throw new ValidationException(message, result.Errors);
             }
         }
-
-        //public decimal Sum(Expression<Func<T, decimal>> selector)
-        //{
-        //    return DbSet.Sum(selector);
-        //}
         
         // States logic
 

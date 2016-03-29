@@ -131,7 +131,7 @@ namespace Expenses.UI.Shell
             {
                 var exercise = _exerciseVm.Exercise;
                 _exerciseService.SetAdded(exercise);
-                _exerciseService.TrySave(exercise);
+                _exerciseService.Save(exercise);
                 Session.Exercise = exercise;
             }
             catch (Exception ex)
@@ -169,7 +169,7 @@ namespace Expenses.UI.Shell
         // Navigation Commands
         public void Loaded()
         {
-            Navigate(typeof (DashboardView));
+            //Navigate(typeof (DashboardView));
         }
 
         public void Navigate(Type viewType)
