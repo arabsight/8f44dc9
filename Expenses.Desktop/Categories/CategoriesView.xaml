@@ -51,49 +51,8 @@
             </dxr:RibbonPageCategory>
         </dxr:RibbonControl>
 
-        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
-            <dxr:RibbonStatusBarControl.LeftItems>
-                <dxb:BarStaticItem AllowGlyphTheming="True"
-                                   Content="{Binding Entities.Count,
-                                                     Converter={dxmvvm:FormatStringConverter FormatString='N° de lignes: {0}'}}" />
-            </dxr:RibbonStatusBarControl.LeftItems>
-        </dxr:RibbonStatusBarControl>
+        <common:EntitiesStatusBar DockPanel.Dock="Bottom" />
 
-        <dxe:ListBoxEdit AllowCollectionView="True"
-                         AllowItemHighlighting="True"
-                         DisplayMember="Name"
-                         IsSynchronizedWithCurrentItem="True"
-                         ItemsSource="{Binding Entities}"
-                         Padding="12"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         SelectedItem="{Binding SelectedEntity}"
-                         ValueMember="Id">
-
-            <dxe:ListBoxEdit.StyleSettings>
-                <dxe:ListBoxEditStyleSettings />
-            </dxe:ListBoxEdit.StyleSettings>
-
-            <dxe:ListBoxEdit.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True"
-                               ItemWidth="250" />
-                </ItemsPanelTemplate>
-            </dxe:ListBoxEdit.ItemsPanel>
-
-            <dxe:ListBoxEdit.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="#FF1072C3"
-                            BorderThickness="2,0,0,0"
-                            Padding="16">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center"
-                                       FontSize="14"
-                                       Text="{Binding Name}" />
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </dxe:ListBoxEdit.ItemTemplate>
-        </dxe:ListBoxEdit>
-
+        <common:NameListBox />
     </DockPanel>
 </UserControl>

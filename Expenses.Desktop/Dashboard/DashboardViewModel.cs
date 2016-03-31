@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DevExpress.Mvvm.POCO;
 using Expenses.Core;
 using Expenses.Logic;
 using Expenses.Logic.Helpers;
@@ -9,13 +8,11 @@ namespace Expenses.UI.Dashboard
 {
     public class DashboardViewModel : EntitiesViewModel<Expense>
     {
-        private readonly WithdrawalService _withdrawals;
         private readonly ExpenseService _expenses;
+        private readonly WithdrawalService _withdrawals;
 
         public DashboardViewModel()
         {
-            if (this.IsInDesignMode()) return;
-
             _expenses = ExpenseService.Instance;
             _withdrawals = WithdrawalService.Instance;
         }

@@ -5,6 +5,7 @@
                           xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
                           xmlns:local="clr-namespace:Expenses.UI.Shell"
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                           d:DesignHeight="500"
                           d:DesignWidth="900"
                           mc:Ignorable="d">
@@ -16,6 +17,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+
+                <dxe:ListBoxEdit Grid.Column="0">
+                    
+                </dxe:ListBoxEdit>
             </Grid>
         </dxr:BackstageTabItem.ControlPane>
     </dxr:BackstageTabItem>

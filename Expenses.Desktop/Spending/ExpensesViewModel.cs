@@ -38,14 +38,23 @@ namespace Expenses.UI.Spending
             {
                 case MessageType.Added:
                     var added = _expenses.Find(message.Entity.Id);
+
                     if (added.Category == null)
                         _expenses.LoadReference(added, e => e.Category);
+
+                    if (added.ReceiptType == null)
+                        _expenses.LoadReference(added, e => e.ReceiptType);
+
                     Entities.Add(added);
                     break;
                 case MessageType.Modified:
                     _expenses.Reload(SelectedEntity);
+
                     if (SelectedEntity.Category == null)
                         _expenses.LoadReference(SelectedEntity, e => e.Category);
+
+                    if (SelectedEntity.ReceiptType == null)
+                        _expenses.LoadReference(SelectedEntity, e => e.ReceiptType);
                     break;
                 case MessageType.Deleted:
                     break;

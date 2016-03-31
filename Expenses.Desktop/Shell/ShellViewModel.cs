@@ -25,13 +25,14 @@ namespace Expenses.UI.Shell
 
         public ShellViewModel()
         {
-            if (this.IsInDesignMode()) return;
-
             Session = Session.Default;
             _userService = UserService.Instance;
             _exerciseService = ExerciseService.Instance;
         }
 
+        public virtual string Title { get; set; }
+        public virtual string CurrentView { get; set; }
+        public virtual bool IsBusy { get; protected set; }
         public virtual Session Session { get; protected set; }
 
         [ServiceProperty(Key = "LoginDialogService")]
@@ -44,11 +45,7 @@ namespace Expenses.UI.Shell
         protected virtual INavigationService NavigationService => null;
         protected virtual ISplashScreenService SplashScreenService => null;
         protected virtual IMessageBoxService MessageBoxService => null;
-
-        public virtual string Title { get; set; }
-
-        public virtual string CurrentView { get; set; }
-
+        
         public void Initialize()
         {
             ShowSplashScreen();
@@ -61,9 +58,7 @@ namespace Expenses.UI.Shell
         {
             if (!SplashScreenService.IsSplashScreenActive)
                 SplashScreenService.ShowSplashScreen();
-
             Session.Exercise = _exerciseService.CurrentExercise;
-
             SplashScreenService.HideSplashScreen();
         }
 
@@ -177,7 +172,7 @@ namespace Expenses.UI.Shell
             var vmType = GetViewModelType(viewType);
             var vm = GetViewModelInstance(vmType);
 
-            NavigationService.Navigate(viewType.Name, vm, Session, this, false);
+            NavigationService.Navigate(viewType.Name, vm, null, null, false);
             CurrentView = viewType.Name;
             Title = ((IViewModel) vm).Title;
         }

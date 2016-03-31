@@ -10,7 +10,6 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:spending="clr-namespace:Expenses.UI.Spending"
              d:DesignHeight="500"
              d:DesignWidth="900"
              mc:Ignorable="d">
@@ -65,14 +64,8 @@
                 </dxr:RibbonPage>
             </dxr:RibbonDefaultPageCategory>
         </dxr:RibbonControl>
-
-        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
-            <dxr:RibbonStatusBarControl.LeftItems>
-                <dxb:BarStaticItem AllowGlyphTheming="True"
-                                   Content="{Binding Entities.Count,
-                                                     Converter={dxmvvm:FormatStringConverter FormatString='N° de lignes: {0}'}}" />
-            </dxr:RibbonStatusBarControl.LeftItems>
-        </dxr:RibbonStatusBarControl>
+ 
+        <common:EntitiesStatusBar DockPanel.Dock="Bottom" />
 
         <dxg:GridControl ItemsSource="{Binding Entities}"
                          SelectedItem="{Binding SelectedEntity,

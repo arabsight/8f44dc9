@@ -105,14 +105,20 @@
       <DependentUpon>CategoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Categories\CategoryViewModel.cs" />
+    <Compile Include="Common\EntitiesStatusBar.xaml.cs">
+      <DependentUpon>EntitiesStatusBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\EntitiesViewModel.cs" />
     <Compile Include="Common\EntityRibbon.xaml.cs">
       <DependentUpon>EntityRibbon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\EntityViewModel.cs" />
     <Compile Include="Common\IViewModel.cs" />
-    <Compile Include="Common\NavigationSplashScreen.xaml.cs">
-      <DependentUpon>NavigationSplashScreen.xaml</DependentUpon>
+    <Compile Include="Common\NameLayoutView.xaml.cs">
+      <DependentUpon>NameLayoutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\NameListBox.xaml.cs">
+      <DependentUpon>NameListBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\EntityMessage.cs" />
     <Compile Include="Common\MonthSelector.xaml.cs">
@@ -120,9 +126,6 @@
     </Compile>
     <Compile Include="Common\Names.cs" />
     <Compile Include="Common\Session.cs" />
-    <Compile Include="Common\SimpleEntityLayout.xaml.cs">
-      <DependentUpon>SimpleEntityLayout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -185,21 +188,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\EntitiesStatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\EntityRibbon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\NavigationSplashScreen.xaml">
+    <Page Include="Common\NameLayoutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\NameListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\MonthSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Common\SimpleEntityLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\SplashScreen.xaml">
       <Generator>MSBuild:Compile</Generator>

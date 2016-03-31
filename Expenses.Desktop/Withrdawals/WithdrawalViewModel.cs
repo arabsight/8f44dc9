@@ -22,13 +22,7 @@ namespace Expenses.UI.Withrdawals
         {
             return ViewModelSource.Create(() => new WithdrawalViewModel(entity));
         }
-
-        //private void SetEntity(Withdrawal entity)
-        //{
-        //    if (entity == null) AddNew();
-        //    else Entity = Service.Find(entity.Id);
-        //}
-
+        
         protected override void AddNew()
         {
             Entity = new Withdrawal

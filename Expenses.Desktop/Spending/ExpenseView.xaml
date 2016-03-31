@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="Expenses.UI.Spending.ExpenseView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:Expenses.UI.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
@@ -15,31 +15,14 @@
 
     <dxmvvm:Interaction.Behaviors>
         <dx:DXMessageBoxService />
+        <dx:WindowedDocumentUIService DocumentShowMode="Dialog"
+                                      WindowStartupLocation="CenterOwner"
+                                      WindowStyle="{StaticResource WindowedDocStyle}"
+                                      WindowType="{x:Type dxr:DXRibbonWindow}" />
     </dxmvvm:Interaction.Behaviors>
 
     <DockPanel>
-        <dxr:RibbonControl AllowCustomization="False"
-                           DockPanel.Dock="Top"
-                           RibbonStyle="Office2010"
-                           ShowApplicationButton="False"
-                           ToolbarShowMode="Hide">
-
-            <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
-                <dxr:RibbonPage Caption="Menu">
-                    <dxr:RibbonPageGroup Caption="{x:Null}">
-                        <dxb:BarButtonItem Command="{Binding SaveAndCloseCommand}"
-                                           Content="Enregistrer et fermer"
-                                           Glyph="{dx:DXImageOffice2013 Image=SaveAndClose_16x16.png}"
-                                           LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndClose_32x32.png}" />
-
-                        <dxb:BarButtonItem Command="{Binding SaveAndNewCommand}"
-                                           Content="Enregistrer et Ajouter"
-                                           Glyph="{dx:DXImageOffice2013 Image=SaveAndNew_16x16.png}"
-                                           LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndNew_32x32.png}" />
-                    </dxr:RibbonPageGroup>
-                </dxr:RibbonPage>
-            </dxr:RibbonDefaultPageCategory>
-        </dxr:RibbonControl>
+        <common:EntityRibbon DockPanel.Dock="Top" />
 
         <dxlc:LayoutControl IsEnabled="{Binding Entity,
                                                 Converter={dxmvvm:ObjectToBooleanConverter}}"
@@ -50,6 +33,7 @@
                 <dxe:DateEdit EditValue="{Binding Entity.Date,
                                                   Mode=TwoWay,
                                                   UpdateSourceTrigger=PropertyChanged}"
+                              FontSize="14"
                               MaxValue="{Binding Session.Exercise.EndDate,
                                                  Mode=OneWay}"
                               MinValue="{Binding Session.Exercise.StartDate,
@@ -62,7 +46,12 @@
                 <dxe:TextEdit CausesValidation="False"
                               EditValue="{Binding Entity.Name,
                                                   Mode=TwoWay,
-                                                  UpdateSourceTrigger=PropertyChanged}" />
+                                                  UpdateSourceTrigger=PropertyChanged}"
+                              FontSize="14">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:FocusBehavior />
+                    </dxmvvm:Interaction.Behaviors>
+                </dxe:TextEdit>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem Label="Catégorie:">
@@ -70,6 +59,7 @@
                                   EditValue="{Binding Entity.CategoryId,
                                                       Mode=TwoWay,
                                                       UpdateSourceTrigger=PropertyChanged}"
+                                  FontSize="14"
                                   IsTextEditable="False"
                                   ItemsSource="{Binding Categories}"
                                   NullText="Selectionnee une catégorie..."
@@ -88,6 +78,7 @@
                               EditValue="{Binding Entity.Amount,
                                                   Mode=TwoWay,
                                                   UpdateSourceTrigger=PropertyChanged}"
+                              FontSize="14"
                               Mask="n2"
                               MaskUseAsDisplayFormat="True"
                               MinValue="0" />
@@ -98,6 +89,7 @@
                                   EditValue="{Binding Entity.ReceiptTypeId,
                                                       Mode=TwoWay,
                                                       UpdateSourceTrigger=PropertyChanged}"
+                                  FontSize="14"
                                   IsTextEditable="False"
                                   ItemsSource="{Binding Receipts}"
                                   NullValue="0"
@@ -114,7 +106,8 @@
                 <dxe:TextEdit CausesValidation="False"
                               EditValue="{Binding Entity.ReceiptNumber,
                                                   Mode=TwoWay,
-                                                  UpdateSourceTrigger=PropertyChanged}" />
+                                                  UpdateSourceTrigger=PropertyChanged}"
+                              FontSize="14" />
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem Label="Produits:">
@@ -124,6 +117,7 @@
                               EditValue="{Binding Entity.Description,
                                                   Mode=TwoWay,
                                                   UpdateSourceTrigger=PropertyChanged}"
+                              FontSize="14"
                               TextWrapping="Wrap" />
             </dxlc:LayoutItem>
         </dxlc:LayoutControl>

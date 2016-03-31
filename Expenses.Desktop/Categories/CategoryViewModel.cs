@@ -17,25 +17,7 @@ namespace Expenses.UI.Categories
 
         public override object Title => "Catégorie";
 
-        //private void SetEntity(Category entity = null)
-        //{
-        //    if (entity == null) AddNew();
-        //    else Entity = Service.Find(entity.Id);
-        //}
-
         public static CategoryViewModel Instance(Category entity = null) =>
             ViewModelSource.Create(() => new CategoryViewModel(entity));
-
-        //    Entity = new Category
-        //{
-
-        //protected override void AddNew()
-        //    {
-        //        CreatedBy = Session.Identity.Id,
-        //        UpdatedBy = Session.Identity.Id
-        //    };
-
-        //    Service.SetAdded(Entity);
-        //}
     }
 }

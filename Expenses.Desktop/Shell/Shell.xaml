@@ -1,6 +1,7 @@
 ﻿<dxr:DXRibbonWindow x:Class="Expenses.UI.Shell.Shell"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:categories="clr-namespace:Expenses.UI.Categories"
                     xmlns:common="clr-namespace:Expenses.UI.Common"
                     xmlns:dashboard="clr-namespace:Expenses.UI.Dashboard"
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
@@ -11,11 +12,10 @@
                     xmlns:dxwuinav="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
                     xmlns:exercises="clr-namespace:Expenses.UI.Exercises"
                     xmlns:local="clr-namespace:Expenses.UI.Shell"
+                    xmlns:receipts="clr-namespace:Expenses.UI.Receipts"
                     xmlns:spending="clr-namespace:Expenses.UI.Spending"
                     xmlns:users="clr-namespace:Expenses.UI.Users"
                     xmlns:withdrawals="clr-namespace:Expenses.UI.Withrdawals"
-                    xmlns:categories="clr-namespace:Expenses.UI.Categories"
-                    xmlns:receipts="clr-namespace:Expenses.UI.Receipts"
                     x:Name="ShellWindow"
                     Title="{Binding Title}"
                     Width="725"
@@ -64,12 +64,6 @@
                                   State="Chargement..." />
 
         <dx:DXMessageBoxService />
-
-        <!--<dx:WindowedDocumentUIService x:Name="DialogDocumentService"
-                                      DocumentShowMode="Dialog"
-                                      WindowStartupLocation="CenterOwner"
-                                      WindowStyle="{StaticResource WindowedDocStyle}"
-                                      WindowType="{x:Type dxr:DXRibbonWindow}" />-->
     </dxmvvm:Interaction.Behaviors>
 
     <DockPanel>
@@ -78,9 +72,9 @@
                            ShowApplicationButton="True"
                            ToolbarShowMode="Hide">
 
-            <dxr:RibbonControl.ApplicationMenu>
+            <!--<dxr:RibbonControl.ApplicationMenu>
                 <local:BackstageView />
-            </dxr:RibbonControl.ApplicationMenu>
+            </dxr:RibbonControl.ApplicationMenu>-->
 
             <!--<dxr:RibbonControl.ToolbarItems>
                 <dxb:BarButtonItemLink BarItemName="BtnWithdrawals" />
@@ -90,7 +84,8 @@
             <dxr:RibbonDefaultPageCategory>
                 <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}">
                     <dxr:RibbonPageGroup Caption="Modules">
-                        <dxb:BarButtonItem Command="{Binding NavigateCommand}" x:Name="BtnDashboard"
+                        <dxb:BarButtonItem x:Name="BtnDashboard"
+                                           Command="{Binding NavigateCommand}"
                                            CommandParameter="{x:Type dashboard:DashboardView}"
                                            Content="Tableau de bord"
                                            Glyph="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}"
@@ -151,11 +146,13 @@
             </dxr:RibbonStatusBarControl.RightItems>
         </dxr:RibbonStatusBarControl>
 
-        <dxwui:NavigationFrame AnimationDelay="0"
-                               AnimationType="None">
-            <dxmvvm:Interaction.Behaviors>
-                <dxwuinav:FrameNavigationService ShowSplashScreen="False" />
-            </dxmvvm:Interaction.Behaviors>
-        </dxwui:NavigationFrame>
+        <Grid>
+            <dxwui:NavigationFrame AnimationDelay="0"
+                                   AnimationType="None">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxwuinav:FrameNavigationService ShowSplashScreen="False" />
+                </dxmvvm:Interaction.Behaviors>
+            </dxwui:NavigationFrame>
+        </Grid>
     </DockPanel>
 </dxr:DXRibbonWindow>

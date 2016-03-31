@@ -97,13 +97,7 @@
             </dxr:RibbonDefaultPageCategory>
         </dxr:RibbonControl>
 
-        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
-            <dxr:RibbonStatusBarControl.LeftItems>
-                <dxb:BarStaticItem AllowGlyphTheming="True"
-                                   Content="{Binding Entities.Count,
-                                                     Converter={dxmvvm:FormatStringConverter FormatString='N° de lignes: {0}'}}" />
-            </dxr:RibbonStatusBarControl.LeftItems>
-        </dxr:RibbonStatusBarControl>
+        <common:EntitiesStatusBar DockPanel.Dock="Bottom" />
 
         <dxg:GridControl ItemsSource="{Binding Entities}"
                          SelectedItem="{Binding SelectedEntity}"

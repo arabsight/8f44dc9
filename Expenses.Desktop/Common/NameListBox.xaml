@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Expenses.UI.Common.NameListBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+
+    <dxe:ListBoxEdit AllowCollectionView="True"
+                     AllowItemHighlighting="True"
+                     DisplayMember="Name"
+                     IsSynchronizedWithCurrentItem="True"
+                     ItemsSource="{Binding Entities}"
+                     Padding="12"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SelectedItem="{Binding SelectedEntity}"
+                     ValueMember="Id">
+
+        <dxe:ListBoxEdit.StyleSettings>
+            <dxe:ListBoxEditStyleSettings />
+        </dxe:ListBoxEdit.StyleSettings>
+
+        <dxe:ListBoxEdit.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel IsItemsHost="True"
+                           ItemWidth="250" />
+            </ItemsPanelTemplate>
+        </dxe:ListBoxEdit.ItemsPanel>
+
+        <dxe:ListBoxEdit.ItemTemplate>
+            <DataTemplate>
+                <Border BorderBrush="#FF1072C3"
+                        BorderThickness="2,0,0,0"
+                        Padding="16">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="14"
+                                   Text="{Binding Name}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </dxe:ListBoxEdit.ItemTemplate>
+    </dxe:ListBoxEdit>
+</UserControl>
