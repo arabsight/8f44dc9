@@ -97,7 +97,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Categories\CategoriesView.xaml.cs">
+      <DependentUpon>CategoriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Categories\CategoriesViewModel.cs" />
+    <Compile Include="Categories\CategoryView.xaml.cs">
+      <DependentUpon>CategoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Categories\CategoryViewModel.cs" />
     <Compile Include="Common\EntitiesViewModel.cs" />
+    <Compile Include="Common\EntityRibbon.xaml.cs">
+      <DependentUpon>EntityRibbon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\EntityViewModel.cs" />
     <Compile Include="Common\IViewModel.cs" />
     <Compile Include="Common\NavigationSplashScreen.xaml.cs">
@@ -109,6 +120,9 @@
     </Compile>
     <Compile Include="Common\Names.cs" />
     <Compile Include="Common\Session.cs" />
+    <Compile Include="Common\SimpleEntityLayout.xaml.cs">
+      <DependentUpon>SimpleEntityLayout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -123,6 +137,14 @@
       <DependentUpon>ExerciseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Exercises\ExerciseViewModel.cs" />
+    <Compile Include="Receipts\ReceiptsView.xaml.cs">
+      <DependentUpon>ReceiptsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Receipts\ReceiptsViewModel.cs" />
+    <Compile Include="Receipts\ReceiptView.xaml.cs">
+      <DependentUpon>ReceiptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Receipts\ReceiptViewModel.cs" />
     <Compile Include="Shell\BackstageView.xaml.cs">
       <DependentUpon>BackstageView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +177,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Categories\CategoriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Categories\CategoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\EntityRibbon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\NavigationSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,6 +196,10 @@
     <Page Include="Common\MonthSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\SimpleEntityLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\SplashScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +216,14 @@
     <Page Include="Exercises\ExerciseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Receipts\ReceiptsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Receipts\ReceiptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Shell\BackstageView.xaml">
       <SubType>Designer</SubType>

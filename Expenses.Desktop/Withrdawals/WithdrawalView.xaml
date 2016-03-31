@@ -9,8 +9,6 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:withrdawals="clr-namespace:Expenses.UI.Withrdawals"
-             d:DataContext="{dxmvvm:ViewModelSource Type={x:Type withrdawals:WithdrawalViewModel}}"
              d:DesignHeight="400"
              d:DesignWidth="500"
              mc:Ignorable="d">
@@ -28,13 +26,7 @@
 
             <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
                 <dxr:RibbonPage Caption="Menu">
-
-                    <dxr:RibbonPageGroup>
-                        <!--<dxb:BarButtonItem Command="{Binding SaveCommand}" IsVisible="False"
-                                           Content="Enregistrer"
-                                           Glyph="{dx:DXImageOffice2013 Image=Save_16x16.png}"
-                                           LargeGlyph="{dx:DXImageOffice2013 Image=Save_32x32.png}" />-->
-
+                    <dxr:RibbonPageGroup Caption="{x:Null}">
                         <dxb:BarButtonItem Command="{Binding SaveAndCloseCommand}"
                                            Content="Enregistrer et fermer"
                                            Glyph="{dx:DXImageOffice2013 Image=SaveAndClose_16x16.png}"
@@ -44,14 +36,6 @@
                                            Content="Enregistrer et Ajouter"
                                            Glyph="{dx:DXImageOffice2013 Image=SaveAndNew_16x16.png}"
                                            LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndNew_32x32.png}" />
-
-                        <!--<dxb:BarItemSeparator />-->
-
-                        <dxb:BarButtonItem Command="{Binding CloseCommand}"
-                                           Content="Fermer"
-                                           Glyph="{dx:DXImageOffice2013 Image=Close_16x16.png}"
-                                           IsVisible="False"
-                                           LargeGlyph="{dx:DXImageOffice2013 Image=Close_32x32.png}" />
                     </dxr:RibbonPageGroup>
 
                 </dxr:RibbonPage>
@@ -94,7 +78,5 @@
                 </dxe:SpinEdit>
             </dxlc:LayoutItem>
         </dxlc:LayoutControl>
-
     </DockPanel>
-
 </UserControl>

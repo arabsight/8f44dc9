@@ -3,12 +3,21 @@
     public class Names
     {
         public static string MainMenuName => "Accueil";
+        public static string OptionsMenuName => "Options";
+
         public static string WithdrawalTasks => "Tâches d'alimentation de caisse";
         public static string ExpensesTasks => "Tâches des dépenses";
+        public static string CategoryTasks => "Tâches des catégories";
+        public static string ReceiptsTasks => "Tâches des documents";
+
         public static string ReportsCaption => "Rapports";
 
         public static string ExpensesViewName => "ExpensesView";
         public static string DashboardViewName => "DashboardView";
         public static string WithdrawalsViewName => "WithdrawalsView";
+        public static string CategoriesViewName => "CategoriesView";
+        public static string ExercisesViewName => "ExercisesView";
+        public static string UsersViewName => "UsersView";
+        public static string ReceiptsViewName => "ReceiptsView";
     }
 }

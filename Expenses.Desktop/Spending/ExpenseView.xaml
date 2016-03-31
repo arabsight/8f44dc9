@@ -8,9 +8,7 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
-             xmlns:local="clr-namespace:Expenses.UI.Spending"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{dxmvvm:ViewModelSource Type={x:Type local:ExpenseViewModel}}"
              d:DesignHeight="500"
              d:DesignWidth="500"
              mc:Ignorable="d">
@@ -28,7 +26,7 @@
 
             <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
                 <dxr:RibbonPage Caption="Menu">
-                    <dxr:RibbonPageGroup>
+                    <dxr:RibbonPageGroup Caption="{x:Null}">
                         <dxb:BarButtonItem Command="{Binding SaveAndCloseCommand}"
                                            Content="Enregistrer et fermer"
                                            Glyph="{dx:DXImageOffice2013 Image=SaveAndClose_16x16.png}"

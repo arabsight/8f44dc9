@@ -9,7 +9,7 @@ using Expenses.Logic;
 namespace Expenses.UI.Common
 {
     [POCOViewModel]
-    public class EntityViewModel<TEntity> : IDocumentContent where TEntity : class
+    public class EntityViewModel<TEntity> : IDocumentContent where TEntity : class, new()
     {
         protected Service<TEntity> Service;
 
@@ -55,7 +55,7 @@ namespace Expenses.UI.Common
         }
 
         public virtual IDocumentOwner DocumentOwner { get; set; }
-        public virtual object Title { get; }
+        public virtual object Title { get; } = string.Empty;
 
         protected virtual MessageResult ShowConfirmation()
         {
@@ -97,6 +97,27 @@ namespace Expenses.UI.Common
         public virtual void SaveAndClose()
         {
             if (TrySave()) DocumentOwner.Close(this, false);
+        }
+
+        public virtual void SaveAndNew()
+        {
+            if (TrySave()) AddNew();
+        }
+
+        protected virtual void AddNew()
+        {
+            Entity = new TEntity();
+
+            ((ITrackable) Entity).CreatedBy = Session.Identity.Id;
+            ((ITrackable) Entity).UpdatedBy = Session.Identity.Id;
+
+            Service.SetAdded(Entity);
+        }
+
+        protected virtual void SetEntity(TEntity entity = null)
+        {
+            if (entity == null) AddNew();
+            else Entity = Service.Find(((ITrackable)entity).Id);
         }
     }
 }

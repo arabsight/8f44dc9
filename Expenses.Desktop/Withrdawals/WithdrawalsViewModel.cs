@@ -50,7 +50,7 @@ namespace Expenses.UI.Withrdawals
 
         private void ShowDocument(Withdrawal entity = null)
         {
-            var vm = WithdrawalViewModel.Instance(Session, entity);
+            var vm = WithdrawalViewModel.Instance(entity);
             var doc = DocumentManagerService.FindDocument(vm);
             if (doc == null)
             {
@@ -68,7 +68,7 @@ namespace Expenses.UI.Withrdawals
         public void Delete(Withdrawal entity)
         {
             var result = MessageBoxService.Show(
-                "êtes-vous sûr de vouloir supprimer ce retrait?",
+                "êtes-vous sûr de vouloir supprimer cet enregistrement?",
                 "Attention",
                 MessageButton.YesNo,
                 MessageIcon.Warning,

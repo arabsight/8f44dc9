@@ -169,7 +169,7 @@ namespace Expenses.UI.Shell
         // Navigation Commands
         public void Loaded()
         {
-            //Navigate(typeof (DashboardView));
+            Navigate(typeof (DashboardView));
         }
 
         public void Navigate(Type viewType)

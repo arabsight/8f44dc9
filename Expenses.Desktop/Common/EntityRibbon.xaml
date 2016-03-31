@@ -1,0 +1,32 @@
+﻿<dxr:RibbonControl x:Class="Expenses.UI.Common.EntityRibbon"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                   xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                   xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   AllowCustomization="False"
+                   RibbonStyle="Office2010"
+                   ShowApplicationButton="False"
+                   ToolbarShowMode="Hide"
+                   d:DesignHeight="300"
+                   d:DesignWidth="300"
+                   mc:Ignorable="d">
+
+    <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
+        <dxr:RibbonPage Caption="Menu">
+            <dxr:RibbonPageGroup Caption="{x:Null}">
+                <dxb:BarButtonItem Command="{Binding SaveAndCloseCommand}"
+                                   Content="Enregistrer et fermer"
+                                   Glyph="{dx:DXImageOffice2013 Image=SaveAndClose_16x16.png}"
+                                   LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndClose_32x32.png}" />
+
+                <dxb:BarButtonItem Command="{Binding SaveAndNewCommand}"
+                                   Content="Enregistrer et Ajouter"
+                                   Glyph="{dx:DXImageOffice2013 Image=SaveAndNew_16x16.png}"
+                                   LargeGlyph="{dx:DXImageOffice2013 Image=SaveAndNew_32x32.png}" />
+            </dxr:RibbonPageGroup>
+        </dxr:RibbonPage>
+    </dxr:RibbonDefaultPageCategory>
+</dxr:RibbonControl>

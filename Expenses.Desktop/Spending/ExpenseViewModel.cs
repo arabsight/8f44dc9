@@ -36,29 +36,23 @@ namespace Expenses.UI.Spending
             return ViewModelSource.Create(() => new ExpenseViewModel(entity));
         }
 
-        private void SetEntity(Expense entity)
-        {
-            if (entity == null)
-            {
-                Entity = new Expense
-                {
-                    Date = DateTime.Today,
-                    ExerciseId = Session.Exercise.Id,
-                    CreatedBy = Session.Identity.Id,
-                    UpdatedBy = Session.Identity.Id
-                };
+        //private void SetEntity(Expense entity)
+        //{
+        //    if (entity == null) AddNew();
+        //    else Entity = Service.Find(entity.Id);
+        //}
 
-                Service.SetAdded(Entity);
-            }
-            else
-            {
-                Entity = Service.Find(entity.Id);
-            }
-        }
-        
-        public void SaveAndNew()
+        protected override void AddNew()
         {
-            if (TrySave()) SetEntity(null);
+            Entity = new Expense
+            {
+                Date = DateTime.Today,
+                ExerciseId = Session.Exercise.Id,
+                CreatedBy = Session.Identity.Id,
+                UpdatedBy = Session.Identity.Id
+            };
+
+            Service.SetAdded(Entity);
         }
         
         public void AddCategory()
