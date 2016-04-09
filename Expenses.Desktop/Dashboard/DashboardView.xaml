@@ -4,7 +4,6 @@
              xmlns:common="clr-namespace:Expenses.UI.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
-             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
@@ -15,9 +14,13 @@
              d:DesignHeight="500"
              d:DesignWidth="900"
              mc:Ignorable="d">
+
     <DockPanel>
         <dxr:RibbonControl DockPanel.Dock="Top"
-                           RibbonStyle="Office2010">
+                           PageCategoryAlignment="Right"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="False"
+                           ToolbarShowMode="Hide">
             <dxr:RibbonDefaultPageCategory Caption="Default Category">
                 <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}" />
             </dxr:RibbonDefaultPageCategory>
@@ -31,12 +34,12 @@
                               dxlc:LayoutControl.AllowHorizontalSizing="True">
                 <dxlc:LayoutGroup Header="Alimentation de caisse"
                                   View="GroupBox">
-                    <dxga:DigitalGaugeControl Text="{Binding WithdrawalsTotal}" />
+                    <dxga:DigitalGaugeControl Text="{Binding MonthlyWithdrawalsTotal}" />
                 </dxlc:LayoutGroup>
 
                 <dxlc:LayoutGroup Header="Dépenses Réglées"
                                   View="GroupBox">
-                    <dxga:DigitalGaugeControl Text="{Binding ExpensesTotal}" />
+                    <dxga:DigitalGaugeControl Text="{Binding MonthlyExpensesTotal}" />
                 </dxlc:LayoutGroup>
 
                 <dxlc:LayoutGroup Header="Dépenses Non-réglées"

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Expenses.Core;
+using Expenses.Core.Helpers;
 using Expenses.Logic;
-using Expenses.Logic.Helpers;
 using Expenses.UI.Common;
 
 namespace Expenses.UI.Dashboard
@@ -19,8 +19,8 @@ namespace Expenses.UI.Dashboard
 
         public override string Title => "Tableau de bord";
 
-        public virtual decimal WithdrawalsTotal { get; set; }
-        public virtual decimal ExpensesTotal { get; set; }
+        public virtual decimal MonthlyWithdrawalsTotal { get; set; }
+        public virtual decimal MonthlyExpensesTotal { get; set; }
         public virtual decimal UntreatedExpensesTotal { get; set; }
 
         public virtual decimal Balance { get; set; }
@@ -47,11 +47,11 @@ namespace Expenses.UI.Dashboard
 
         private void CalculateTotals()
         {
-            ExpensesTotal = _expenses.GetTotalByExercise(Session.Exercise);
-            WithdrawalsTotal = _withdrawals.GetTotalByExercise(Session.Exercise);
+            MonthlyExpensesTotal = _expenses.GetTotalByExercise(Session.Exercise);
+            MonthlyWithdrawalsTotal = _withdrawals.GetTotalByExercise(Session.Exercise);
             UntreatedExpensesTotal = 0;
 
-            Balance = WithdrawalsTotal - ExpensesTotal;
+            Balance = MonthlyWithdrawalsTotal - MonthlyExpensesTotal;
             RealBalance = Balance - UntreatedExpensesTotal;
         }
     }

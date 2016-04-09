@@ -22,7 +22,5 @@ namespace Expenses.UI.Common
             get { return GetProperty(() => Exercise); }
             set { SetProperty(() => Exercise, value); }
         }
-
-        //public bool Empty => Exercise == null;
     }
 }

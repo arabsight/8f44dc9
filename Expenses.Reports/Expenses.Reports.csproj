@@ -62,6 +62,12 @@
     <Compile Include="MonthlyExpensesReport.Designer.cs">
       <DependentUpon>MonthlyExpensesReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="MonthlyStateReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonthlyStateReport.Designer.cs">
+      <DependentUpon>MonthlyStateReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="MonthlyWithdrawalsReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -73,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MonthlyExpensesReport.resx">
       <DependentUpon>MonthlyExpensesReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyStateReport.resx">
+      <DependentUpon>MonthlyStateReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonthlyWithdrawalsReport.resx">
       <DependentUpon>MonthlyWithdrawalsReport.cs</DependentUpon>
@@ -88,6 +97,7 @@
   <ItemGroup>
     <None Include="Properties\DataSources\Expenses.Core.Exercise.datasource" />
     <None Include="Properties\DataSources\Expenses.Core.Expense.datasource" />
+    <None Include="Properties\DataSources\Expenses.Core.Helpers.ExpenseTotal.datasource" />
     <None Include="Properties\DataSources\Expenses.Core.Withdrawal.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

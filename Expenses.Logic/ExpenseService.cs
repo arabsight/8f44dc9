@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using Expenses.Core;
-using Expenses.Logic.Helpers;
+using Expenses.Core.Helpers;
 using Expenses.Logic.Validation;namespace Expenses.Logic
 {
     public class ExpenseService : Service<Expense>
@@ -26,11 +26,13 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
         {
             var result = DbSet
                 .Include(e => e.Category)
+                .Include(e => e.Exercise)
                 .Where(e => e.ExerciseId == exercise.Id)
-                .GroupBy(n => new {n.Category.Name})
+                .GroupBy(n => new {n.Category.Name, n.Exercise.Date})
                 .Select(g => new ExpenseTotal
                 {
                     Category = g.Key.Name,
+                    Exercise = g.Key.Date,
                     Amount = g.Sum(e => e.Amount)
                 });
             
@@ -47,7 +49,7 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
                     Category = g.Key.Name,
                     Amount = g.Sum(e => e.Amount)
                 });
-            
+
             return result.ToList();
         }
 
@@ -61,8 +63,7 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
                     Amount = g.Sum(e => e.Amount)
                 });
 
-            return result.ToList();
-        }
+            return result.ToList();}
         
     }
 }

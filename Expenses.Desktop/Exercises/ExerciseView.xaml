@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:Expenses.UI.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             FontSize="14"
              d:DesignHeight="400"
              d:DesignWidth="280"
              dx:ThemeManager.ThemeName="Office2016Colorful"
@@ -16,7 +17,7 @@
     <dxlc:LayoutControl Orientation="Vertical"
                         Padding="20">
 
-        <ContentControl Content="{StaticResource Identity}" />
+        <ContentControl Content="{StaticResource Calendar}" />
 
         <dxlc:GroupSeparator Height="20" />
 
@@ -68,11 +69,8 @@
             <dxlc:LayoutItem Margin="0">
                 <TextBlock Height="30"
                            HorizontalAlignment="Center"
-                           FontSize="14"
                            Foreground="#FFEC5331"
-                           Text="{Binding Message,
-                                          Mode=TwoWay,
-                                          UpdateSourceTrigger=PropertyChanged}"
+                           Text="{Binding Message}"
                            TextWrapping="Wrap" />
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>

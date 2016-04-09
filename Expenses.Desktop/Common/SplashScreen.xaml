@@ -53,7 +53,7 @@
                                VerticalAlignment="Center"
                                Foreground="#FF2D2D2D"
                                Opacity="0.5"
-                               Text="Copyright © 1998-2015"
+                               Text="Arabsight - 2016"
                                TextWrapping="Wrap" />
                     <Image x:Name="Logotype"
                            HorizontalAlignment="Right"

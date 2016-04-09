@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Expenses.UI.Exercises.ExercisesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:Expenses.UI.Common"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="500"
+             d:DesignWidth="600"
+             mc:Ignorable="d">
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DXMessageBoxService />
+        <dx:WindowedDocumentUIService DocumentShowMode="Dialog"
+                                      WindowStartupLocation="CenterOwner"
+                                      WindowStyle="{StaticResource WindowedDocStyle}"
+                                      WindowType="{x:Type dxr:DXRibbonWindow}" />
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel>
+        <dxr:RibbonControl AllowCustomization="False"
+                           DockPanel.Dock="Top"
+                           PageCategoryAlignment="Right"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="False"
+                           ToolbarShowMode="Hide">
+
+            <dxr:RibbonPageCategory Caption="{x:Static common:Names.ConfigPageName}">
+                <dxr:RibbonPage Caption="{x:Static common:Names.OptionsMenuName}">
+                    <dxr:RibbonPageGroup Caption="{x:Static common:Names.ExercisesTasks}">
+                        <dxb:BarButtonItem Command="{Binding NewCommand}"
+                                           Content="Nouveau"
+                                           Glyph="{dx:DXImage Image=New_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=New_32x32.png}" />
+
+                        <dxb:BarButtonItem Command="{Binding EditCommand}"
+                                           CommandParameter="{Binding SelectedEntity}"
+                                           Content="Modifier"
+                                           Glyph="{dx:DXImage Image=Edit_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=Edit_32x32.png}" />
+
+                        <dxb:BarButtonItem Command="{Binding DeleteCommand}"
+                                           CommandParameter="{Binding SelectedEntity}"
+                                           Content="Supprimer"
+                                           Glyph="{dx:DXImage Image=DeleteList_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=DeleteList_32x32.png}" />
+
+                        <dxb:BarItemSeparator />
+
+                        <dxb:BarButtonItem Content="Clôturer"
+                                           Glyph="{dx:DXImage Image=ProtectSheet_16x16.png}"
+                                           LargeGlyph="{dx:DXImage Image=ProtectSheet_32x32.png}">
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:ConfirmationBehavior Command="{Binding CloseExerciseCommand}"
+                                                             CommandParameter="{Binding SelectedEntity}"
+                                                             MessageDefaultResult="No"
+                                                             MessageIcon="Warning"
+                                                             MessageText="Cette action est irréversible, êtes-vous sûr?" />
+                            </dxmvvm:Interaction.Behaviors>
+                        </dxb:BarButtonItem>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonPageCategory>
+        </dxr:RibbonControl>
+
+        <common:EntitiesStatusBar DockPanel.Dock="Bottom" />
+
+        <dxe:ListBoxEdit AllowCollectionView="True"
+                         AllowItemHighlighting="True"
+                         IsSynchronizedWithCurrentItem="True"
+                         ItemsSource="{Binding Entities}"
+                         Padding="12"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectedItem="{Binding SelectedEntity}"
+                         ShowBorder="False"
+                         ValueMember="Id">
+            <dxe:ListBoxEdit.ItemTemplate>
+                <DataTemplate>
+                    <Border x:Name="Border"
+                            BorderBrush="#FF1072C3"
+                            BorderThickness="2,0,0,0"
+                            Padding="16">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Text="{Binding Date,
+                                                      StringFormat=y}" />
+                        </StackPanel>
+                    </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsCurrent}"
+                                     Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Chocolate" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </dxe:ListBoxEdit.ItemTemplate>
+        </dxe:ListBoxEdit>
+    </DockPanel>
+</UserControl>

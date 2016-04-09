@@ -4,6 +4,7 @@ using System.Linq;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Printing;
 using Expenses.Core;
+using Expenses.Core.Shared;
 using Expenses.Logic;
 using Expenses.Reports;
 using Expenses.UI.Common;
@@ -29,7 +30,7 @@ namespace Expenses.UI.Withrdawals
         public override void OnNavigatedTo()
         {
             StartDate = Session.Exercise.StartDate;
-            FinishDate = DateTime.Today;
+            FinishDate = Session.Exercise.GetLastDay();
             LoadEntities();
         }
 
@@ -51,18 +52,9 @@ namespace Expenses.UI.Withrdawals
         private void ShowDocument(Withdrawal entity = null)
         {
             var vm = WithdrawalViewModel.Instance(entity);
-            var doc = DocumentManagerService.FindDocument(vm);
-            if (doc == null)
-            {
-                doc = DocumentManagerService.CreateDocument("WithdrawalView", vm);
-                doc.Id = DocumentManagerService.Documents.Count();
-            }
+            var doc = DocumentManagerService.CreateDocument("WithdrawalView", vm);
+            doc.DestroyOnClose = true;
             doc.Show();
-        }
-
-        public bool CanEdit(Withdrawal entity)
-        {
-            return entity != null && entity.CreatedBy == Session.Identity.Id;
         }
 
         public void Delete(Withdrawal entity)
@@ -89,9 +81,26 @@ namespace Expenses.UI.Withrdawals
             }
         }
 
+        public bool CanNew()
+        {
+            return !Session.Exercise.IsClosed;
+        }
+
+        public bool CanEdit(Withdrawal entity)
+        {
+            return AllowEdit(entity);
+        }
+
         public bool CanDelete(Withdrawal entity)
         {
-            return entity != null && entity.CreatedBy == Session.Identity.Id;
+            return AllowEdit(entity);
+        }
+
+        private bool AllowEdit(ITrackable entity)
+        {
+            return entity != null 
+                && !Session.Exercise.IsClosed 
+                && entity.CreatedBy == Session.Identity.Id;
         }
 
         public void Refresh()
@@ -120,7 +129,7 @@ namespace Expenses.UI.Withrdawals
             ShowReport(Entities);
         }
 
-        private void ShowReport(IEnumerable<Withdrawal> source)
+        private static void ShowReport(IEnumerable<Withdrawal> source)
         {
             using (var report = new MonthlyWithdrawalsReport {DataSource = source})
             {

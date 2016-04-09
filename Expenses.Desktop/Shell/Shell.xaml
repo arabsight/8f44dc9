@@ -66,93 +66,132 @@
         <dx:DXMessageBoxService />
     </dxmvvm:Interaction.Behaviors>
 
-    <DockPanel>
-        <dxr:RibbonControl DockPanel.Dock="Top"
-                           RibbonStyle="Office2010"
-                           ShowApplicationButton="True"
-                           ToolbarShowMode="Hide">
+    <Grid>
+        <DockPanel>
+            <dxr:RibbonControl DockPanel.Dock="Top"
+                               PageCategoryAlignment="Right"
+                               RibbonStyle="Office2010"
+                               ShowApplicationButton="False"
+                               ToolbarShowMode="Hide">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand Command="{Binding PageChangedCommand}"
+                                           EventName="SelectedPageChanged" />
+                </dxmvvm:Interaction.Behaviors>
 
-            <!--<dxr:RibbonControl.ApplicationMenu>
+                <!--<dxr:RibbonControl.ApplicationMenu>
                 <local:BackstageView />
             </dxr:RibbonControl.ApplicationMenu>-->
 
-            <!--<dxr:RibbonControl.ToolbarItems>
+                <!--<dxr:RibbonControl.ToolbarItems>
                 <dxb:BarButtonItemLink BarItemName="BtnWithdrawals" />
                 <dxb:BarButtonItemLink BarItemName="BtnExpenses" />
             </dxr:RibbonControl.ToolbarItems>-->
 
-            <dxr:RibbonDefaultPageCategory>
-                <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}">
-                    <dxr:RibbonPageGroup Caption="Modules">
-                        <dxb:BarButtonItem x:Name="BtnDashboard"
-                                           Command="{Binding NavigateCommand}"
-                                           CommandParameter="{x:Type dashboard:DashboardView}"
-                                           Content="Tableau de bord"
-                                           Glyph="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}"
-                                           LargeGlyph="{dx:DXImage Image=GaugeStyleFullCircular_32x32.png}" />
+                <dxr:RibbonControl.PageHeaderItems>
+                    <dxb:BarButtonItem Command="{Binding LogoutCommand}"
+                                       Content="Déconnecter"
+                                       Glyph="{dx:DXImage Image=BOPermission_32x32.png}"
+                                       LargeGlyph="{dx:DXImage Image=BOPermission_32x32.png}"
+                                       RibbonStyle="SmallWithText" />
+                </dxr:RibbonControl.PageHeaderItems>
 
-                        <dxb:BarItemSeparator />
+                <dxr:RibbonDefaultPageCategory>
+                    <dxr:RibbonPage Caption="{x:Static common:Names.MainMenuName}">
+                        <dxr:RibbonPageGroup Caption="Modules">
+                            <dxb:BarButtonItem x:Name="BtnDashboard"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type dashboard:DashboardView}"
+                                               Content="Tableau de bord"
+                                               Glyph="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=GaugeStyleFullCircular_32x32.png}" />
 
-                        <dxb:BarButtonItem x:Name="BtnWithdrawals"
-                                           Command="{Binding NavigateCommand}"
-                                           CommandParameter="{x:Type withdrawals:WithdrawalsView}"
-                                           Content="Alimentation de caisse"
-                                           Glyph="{dx:DXImage Image=Accounting_16x16.png}"
-                                           LargeGlyph="{dx:DXImage Image=Accounting_32x32.png}" />
+                            <dxb:BarItemSeparator />
 
-                        <dxb:BarButtonItem x:Name="BtnExpenses"
-                                           Command="{Binding NavigateCommand}"
-                                           CommandParameter="{x:Type spending:ExpensesView}"
-                                           Content="Gestion des dépenses"
-                                           Glyph="{dx:DXImage Image=BOSaleItem_16x16.png}"
-                                           LargeGlyph="{dx:DXImage Image=BOSaleItem_32x32.png}" />
-                    </dxr:RibbonPageGroup>
-                </dxr:RibbonPage>
-            </dxr:RibbonDefaultPageCategory>
+                            <dxb:BarButtonItem x:Name="BtnWithdrawals"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type withdrawals:WithdrawalsView}"
+                                               Content="Alimentation de caisse"
+                                               Glyph="{dx:DXImage Image=Accounting_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=Accounting_32x32.png}" />
 
-            <dxr:RibbonPageCategory Caption="Configurations">
-                <dxr:RibbonPage Caption="{x:Static common:Names.OptionsMenuName}">
-                    <dxr:RibbonPageGroup Caption="Données">
-                        <dxb:BarButtonItem Command="{Binding NavigateCommand}"
-                                           CommandParameter="{x:Type categories:CategoriesView}"
-                                           Content="Catégories"
-                                           Glyph="{dx:DXImage Image=TreeView_16x16.png}"
-                                           LargeGlyph="{dx:DXImage Image=TreeView_32x32.png}" />
+                            <dxb:BarButtonItem x:Name="BtnExpenses"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type spending:ExpensesView}"
+                                               Content="Gestion des dépenses"
+                                               Glyph="{dx:DXImage Image=BOSaleItem_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=BOSaleItem_32x32.png}" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonDefaultPageCategory>
 
-                        <dxb:BarItemSeparator />
+                <dxr:RibbonPageCategory Caption="{x:Static common:Names.ConfigPageName}">
+                    <dxr:RibbonPage Caption="{x:Static common:Names.DataMenuName}">
+                        <dxr:RibbonPageGroup Caption="Données">
+                            <dxb:BarButtonItem Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type categories:CategoriesView}"
+                                               Content="Catégories"
+                                               Glyph="{dx:DXImage Image=TreeView_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=TreeView_32x32.png}" />
 
-                        <dxb:BarButtonItem Command="{Binding NavigateCommand}"
-                                           CommandParameter="{x:Type receipts:ReceiptsView}"
-                                           Content="Types de documents"
-                                           Glyph="{dx:DXImage Image=RichText_16x16.png}"
-                                           LargeGlyph="{dx:DXImage Image=RichText_32x32.png}" />
-                    </dxr:RibbonPageGroup>
-                </dxr:RibbonPage>
-            </dxr:RibbonPageCategory>
-        </dxr:RibbonControl>
+                            <dxb:BarItemSeparator />
 
-        <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
-            <dxr:RibbonStatusBarControl.RightItems>
-                <dxb:BarStaticItem Content="{Binding Session.Identity.Fullname,
-                                                     Mode=OneWay,
-                                                     UpdateSourceTrigger=PropertyChanged}"
-                                   Glyph="{dx:DXImageOffice2013 Image=Customer_16x16.png}" />
-                <dxb:BarItemSeparator />
-                <dxb:BarStaticItem Content="{Binding Session.Exercise.Date,
-                                                     Mode=OneWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     Converter={StaticResource MonthConverter}}"
-                                   Glyph="{dx:DXImageOffice2013 Image=MonthView_16x16.png}" />
-            </dxr:RibbonStatusBarControl.RightItems>
-        </dxr:RibbonStatusBarControl>
+                            <dxb:BarButtonItem Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type receipts:ReceiptsView}"
+                                               Content="Types de documents"
+                                               Glyph="{dx:DXImage Image=RichText_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=RichText_32x32.png}" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
 
-        <Grid>
-            <dxwui:NavigationFrame AnimationDelay="0"
-                                   AnimationType="None">
-                <dxmvvm:Interaction.Behaviors>
-                    <dxwuinav:FrameNavigationService ShowSplashScreen="False" />
-                </dxmvvm:Interaction.Behaviors>
-            </dxwui:NavigationFrame>
-        </Grid>
-    </DockPanel>
+                    <dxr:RibbonPage Caption="{x:Static common:Names.OptionsMenuName}">
+                        <dxr:RibbonPageGroup Caption="{x:Static common:Names.OptionsMenuName}">
+                            <dxb:BarButtonItem Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type exercises:ExercisesView}"
+                                               Content="Gestion des Exercises"
+                                               Glyph="{dx:DXImage Image=FullWeekView_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=FullWeekView_32x32.png}" />
+
+                            <dxb:BarButtonItem Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Type users:UsersView}"
+                                               Content="Gestion des Utilisateurs"
+                                               Glyph="{dx:DXImage Image=PublicFix_16x16.png}"
+                                               LargeGlyph="{dx:DXImage Image=PublicFix_32x32.png}" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonPageCategory>
+            </dxr:RibbonControl>
+
+            <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
+                <dxr:RibbonStatusBarControl.RightItems>
+                    <dxb:BarStaticItem Content="{Binding Session.Identity.Fullname}"
+                                       Glyph="{dx:DXImageOffice2013 Image=Customer_16x16.png}" />
+                    <dxb:BarItemSeparator />
+                    <dxb:BarStaticItem Content="{Binding Session.Exercise.Date,
+                                                         Converter={StaticResource MonthConverter}}"
+                                       Glyph="{dx:DXImageOffice2013 Image=MonthView_16x16.png}" />
+                </dxr:RibbonStatusBarControl.RightItems>
+            </dxr:RibbonStatusBarControl>
+
+            <Grid>
+                <dxwui:NavigationFrame AnimationDelay="0"
+                                       AnimationType="None">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxwuinav:FrameNavigationService ShowSplashScreen="False" />
+                    </dxmvvm:Interaction.Behaviors>
+                </dxwui:NavigationFrame>
+            </Grid>
+
+
+        </DockPanel>
+
+        <Border IsHitTestVisible="False"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                Visibility="{Binding IsAuthenticated,
+                                     Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
+            <Border.Background>
+                <SolidColorBrush Opacity="0.9"
+                                 Color="DarkGray" />
+            </Border.Background>
+        </Border>
+    </Grid>
 </dxr:DXRibbonWindow>

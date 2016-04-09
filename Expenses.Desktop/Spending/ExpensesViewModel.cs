@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Printing;
 using Expenses.Core;
+using Expenses.Core.Shared;
 using Expenses.Logic;
 using Expenses.Reports;
 using Expenses.UI.Common;
@@ -71,21 +71,26 @@ namespace Expenses.UI.Spending
             ShowDocument(entity);
         }
 
-        public bool CanEdit(Expense entity)
+        public bool CanNew()
         {
-            return entity != null && entity.CreatedBy == Session.Identity.Id;
+            return !Session.Exercise.IsClosed;
         }
 
-        private void ShowDocument(Expense entity = null)
+        public bool CanEdit(Expense entity)
         {
-            var vm = ExpenseViewModel.Instance(entity);
-            var doc = DocumentManagerService.FindDocument(vm);
-            if (doc == null)
-            {
-                doc = DocumentManagerService.CreateDocument("ExpenseView", vm);
-                doc.Id = DocumentManagerService.Documents.Count();
-            }
-            doc.Show();
+            return AllowEdit(entity);
+        }
+
+        public bool CanDelete(Expense entity)
+        {
+            return AllowEdit(entity);
+        }
+
+        private bool AllowEdit(ITrackable entity)
+        {
+            return entity != null
+                && !Session.Exercise.IsClosed
+                && entity.CreatedBy == Session.Identity.Id;
         }
 
         public void Delete(Expense entity)
@@ -115,29 +120,44 @@ namespace Expenses.UI.Spending
             }
         }
 
-        public bool CanDelete(Expense entity)
-        {
-            return entity != null && entity.CreatedBy == Session.Identity.Id;
-        }
-
         public void Refresh()
         {
             LoadEntities();
         }
 
+        private void ShowDocument(Expense entity = null)
+        {
+            var vm = ExpenseViewModel.Instance(entity);
+            var doc = DocumentManagerService.CreateDocument("ExpenseView", vm);
+            doc.DestroyOnClose = true;
+            doc.Show();
+        }
+
         // Reports
         public void ShowMonthlyReport()
         {
-            ShowReport(Entities);
-        }
+            var entities = _expenses.GetMonthlyTotalsByCategory(Session.Exercise);
+            var withrawalsTotal = WithdrawalService.Instance.GetTotalByExercise(Session.Exercise);
+            entities.ForEach(e => e.Withdrawals = withrawalsTotal);
 
-        private static void ShowReport(IEnumerable<Expense> entities)
-        {
-            using (var report = new MonthlyExpensesReport {DataSource = entities})
+            using (var report = new MonthlyStateReport { DataSource = entities })
             {
                 using (var model = new XtraReportPreviewModel(report))
                 {
-                    var window = new DocumentPreviewWindow {Model = model};
+                    var window = new DocumentPreviewWindow { Model = model };
+                    report.CreateDocument(true);
+                    window.ShowDialog();
+                }
+            }
+        }
+
+        public void ShowDetailedReport()
+        {
+            using (var report = new MonthlyExpensesReport { DataSource = Entities })
+            {
+                using (var model = new XtraReportPreviewModel(report))
+                {
+                    var window = new DocumentPreviewWindow { Model = model };
                     report.CreateDocument(true);
                     window.ShowDialog();
                 }

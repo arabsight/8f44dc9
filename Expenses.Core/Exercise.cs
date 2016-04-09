@@ -58,6 +58,11 @@ namespace Expenses.Core
             EndDate = new DateTime(Date.Year, Date.Month, DateTime.DaysInMonth(Date.Year, Date.Month));
         }
 
+        public DateTime GetLastDay()
+        {
+            return DateTime.Today < EndDate ? DateTime.Today : EndDate;
+        }
+
         public virtual ObservableCollection<Expense> Expenses { get; set; }
         public virtual ObservableCollection<Withdrawal> Withdrawals { get; set; }
     }

@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              d:DesignHeight="500"
              d:DesignWidth="500"
              mc:Ignorable="d">
@@ -24,9 +24,13 @@
     <DockPanel>
         <dxr:RibbonControl AllowCustomization="False"
                            DockPanel.Dock="Top"
-                           RibbonStyle="Office2010">
-            <dxr:RibbonPageCategory Caption="Configurations">
-                <dxr:RibbonPage Caption="{x:Static common:Names.OptionsMenuName}">
+                           PageCategoryAlignment="Right"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="False"
+                           ToolbarShowMode="Hide">
+
+            <dxr:RibbonPageCategory Caption="{x:Static common:Names.ConfigPageName}">
+                <dxr:RibbonPage Caption="{x:Static common:Names.DataMenuName}">
                     <dxr:RibbonPageGroup Caption="{x:Static common:Names.ReceiptsTasks}">
                         <dxb:BarButtonItem Command="{Binding NewCommand}"
                                            Content="Nouveau"

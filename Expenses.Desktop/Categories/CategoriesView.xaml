@@ -26,9 +26,13 @@
     <DockPanel>
         <dxr:RibbonControl AllowCustomization="False"
                            DockPanel.Dock="Top"
-                           RibbonStyle="Office2010">
-            <dxr:RibbonPageCategory Caption="Configurations">
-                <dxr:RibbonPage Caption="{x:Static common:Names.OptionsMenuName}">
+                           PageCategoryAlignment="Right"
+                           RibbonStyle="Office2010"
+                           ShowApplicationButton="False"
+                           ToolbarShowMode="Hide">
+
+            <dxr:RibbonPageCategory Caption="{x:Static common:Names.ConfigPageName}">
+                <dxr:RibbonPage Caption="{x:Static common:Names.DataMenuName}">
                     <dxr:RibbonPageGroup Caption="{x:Static common:Names.CategoryTasks}">
                         <dxb:BarButtonItem Command="{Binding NewCommand}"
                                            Content="Nouveau"

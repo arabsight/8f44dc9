@@ -133,9 +133,14 @@
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\DashboardViewModel.cs" />
-    <Compile Include="Dashboard\WithdrawalsTotals.xaml.cs">
-      <DependentUpon>WithdrawalsTotals.xaml</DependentUpon>
+    <Compile Include="Exercises\ExerciseSummaryView.xaml.cs">
+      <DependentUpon>ExerciseSummaryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Exercises\ExerciseSummaryViewModel.cs" />
+    <Compile Include="Exercises\ExercisesView.xaml.cs">
+      <DependentUpon>ExercisesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exercises\ExercisesViewModel.cs" />
     <Compile Include="Exercises\ExerciseView.xaml.cs">
       <DependentUpon>ExerciseView.xaml</DependentUpon>
     </Compile>
@@ -151,6 +156,9 @@
     <Compile Include="Shell\BackstageView.xaml.cs">
       <DependentUpon>BackstageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Shell\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Spending\ExpensesView.xaml.cs">
       <DependentUpon>ExpensesView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +172,14 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\LoginViewModel.cs" />
+    <Compile Include="Users\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UsersViewModel.cs" />
+    <Compile Include="Users\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UserViewModel.cs" />
     <Compile Include="Withrdawals\WithdrawalsView.xaml.cs">
       <DependentUpon>WithdrawalsView.xaml</DependentUpon>
     </Compile>
@@ -216,7 +232,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dashboard\WithdrawalsTotals.xaml">
+    <Page Include="Exercises\ExerciseSummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Exercises\ExercisesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Shell\BackstageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,6 +283,14 @@
     <Page Include="Users\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Users\UsersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Withrdawals\WithdrawalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -317,6 +349,9 @@
       <Project>{dac39da7-fe20-4013-9b2e-3a1eb164a43c}</Project>
       <Name>Expenses.Reports</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Ornament.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

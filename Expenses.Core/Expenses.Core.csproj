@@ -43,6 +43,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="Expense.cs" />
+    <Compile Include="Helpers\ExpenseTotal.cs" />
     <Compile Include="ReceiptType.cs" />
     <Compile Include="Shared\ITrackable.cs" />
     <Compile Include="Shared\IUser.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using Expenses.Core;
@@ -47,8 +46,7 @@ namespace Expenses.UI.Spending
             Receipts.Add(receipt);
             Entity.ReceiptTypeId = receipt.Id;
         }
-
-
+        
         public virtual ObservableCollection<Category> Categories { get; set; }
         public virtual ObservableCollection<ReceiptType> Receipts { get; set; }
 
@@ -62,15 +60,9 @@ namespace Expenses.UI.Spending
         
         protected override void AddNew()
         {
-            Entity = new Expense
-            {
-                Date = DateTime.Today,
-                ExerciseId = Session.Exercise.Id,
-                CreatedBy = Session.Identity.Id,
-                UpdatedBy = Session.Identity.Id
-            };
-
-            Service.SetAdded(Entity);
+            base.AddNew();
+            Entity.Date = Session.Exercise.GetLastDay();
+            Entity.ExerciseId = Session.Exercise.Id;
         }
         
         public void AddCategory()

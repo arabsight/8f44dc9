@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
@@ -30,10 +31,11 @@ namespace Expenses.UI.Shell
             _exerciseService = ExerciseService.Instance;
         }
 
-        public virtual string Title { get; set; }
-        public virtual string CurrentView { get; set; }
+        public virtual string Title { get; protected set; }
+        public virtual string CurrentView { get; protected set; }
         public virtual bool IsBusy { get; protected set; }
         public virtual Session Session { get; protected set; }
+        public virtual ObservableCollection<Exercise> Exercises { get; protected set; }
 
         [ServiceProperty(Key = "LoginDialogService")]
         protected virtual IDialogService LoginDialogService => null;
@@ -45,19 +47,22 @@ namespace Expenses.UI.Shell
         protected virtual INavigationService NavigationService => null;
         protected virtual ISplashScreenService SplashScreenService => null;
         protected virtual IMessageBoxService MessageBoxService => null;
-        
+
+        public virtual bool IsAuthenticated { get; protected set; }
+
         public void Initialize()
         {
             ShowSplashScreen();
             ShowLoginDialog();
             if (Session.Exercise == null)
                 ShowExerciseDialog();
+
         }
 
         private void ShowSplashScreen()
         {
-            if (!SplashScreenService.IsSplashScreenActive)
-                SplashScreenService.ShowSplashScreen();
+            SplashScreenService.ShowSplashScreen();
+            Exercises = _exerciseService.Get();
             Session.Exercise = _exerciseService.CurrentExercise;
             SplashScreenService.HideSplashScreen();
         }
@@ -125,6 +130,7 @@ namespace Expenses.UI.Shell
             try
             {
                 var exercise = _exerciseVm.Exercise;
+                exercise.Date = new DateTime(exercise.Date.Year, exercise.Date.Month, 1);
                 _exerciseService.SetAdded(exercise);
                 _exerciseService.Save(exercise);
                 Session.Exercise = exercise;
@@ -153,6 +159,7 @@ namespace Expenses.UI.Shell
             {
                 Session.Identity = _userService.Identity;
                 _loginVm.Reset();
+                IsAuthenticated = true;
             }
             else
             {
@@ -197,6 +204,21 @@ namespace Expenses.UI.Shell
             var sufix = viewName.EndsWith("View") ? "Model" : "ViewModel";
             var vmTypeName = $"{viewName + sufix}, {assembly}";
             return Type.GetType(vmTypeName);
+        }
+
+        public void Logout()
+        {
+            IsAuthenticated = false;
+            PageChanged();
+            ShowLoginDialog();
+        }
+
+        public void PageChanged()
+        {
+            if (NavigationService?.Current == null) return;
+            NavigationService.Navigate(Names.HomeViewName);
+            CurrentView = Names.HomeViewName;
+            Title = Names.AppTitle;
         }
     }
 }

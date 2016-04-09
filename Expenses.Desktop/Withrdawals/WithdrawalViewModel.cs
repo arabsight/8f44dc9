@@ -1,5 +1,4 @@
-﻿using System;
-using DevExpress.Mvvm.POCO;
+﻿using DevExpress.Mvvm.POCO;
 using Expenses.Core;
 using Expenses.Logic;
 using Expenses.UI.Common;
@@ -25,16 +24,10 @@ namespace Expenses.UI.Withrdawals
         
         protected override void AddNew()
         {
-            Entity = new Withdrawal
-            {
-                Date = DateTime.Today,
-                Name = Session.Identity.Fullname,
-                ExerciseId = Session.Exercise.Id,
-                CreatedBy = Session.Identity.Id,
-                UpdatedBy = Session.Identity.Id
-            };
-
-            Service.SetAdded(Entity);
+            base.AddNew();
+            Entity.Name = Session.Identity.Fullname;
+            Entity.ExerciseId = Session.Exercise.Id;
+            Entity.Date = Session.Exercise.GetLastDay();
         }
     }
 }
