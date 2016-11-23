@@ -9,7 +9,7 @@ using Expenses.Logic;
 namespace Expenses.UI.Common
 {
     [POCOViewModel]
-    public class EntityViewModel<TEntity> : IDocumentContent where TEntity : class, new()
+    public class EntityViewModel<TEntity> : IDocumentContent where TEntity : class, ITrackable, new()
     {
         protected Service<TEntity> Service;
 
@@ -80,7 +80,7 @@ namespace Expenses.UI.Common
                 }
                 else
                 {
-                    ((ITrackable) Entity).UpdatedBy = Session.Identity.Id;
+                    Entity.UpdatedBy = Session.Identity.Id;
                     Service.Save(Entity);
                     Messenger.Default.Send(new EntityMessage<TEntity>(Entity, MessageType.Modified));
                 }
@@ -106,18 +106,19 @@ namespace Expenses.UI.Common
 
         protected virtual void AddNew()
         {
-            Entity = new TEntity();
-
-            ((ITrackable) Entity).CreatedBy = Session.Identity.Id;
-            ((ITrackable) Entity).UpdatedBy = Session.Identity.Id;
-
+            Entity = new TEntity
+            {
+                CreatedBy = Session.Identity.Id,
+                UpdatedBy = Session.Identity.Id
+            };
+            
             Service.SetAdded(Entity);
         }
 
         protected virtual void SetEntity(TEntity entity = null)
         {
             if (entity == null) AddNew();
-            else Entity = Service.Find(((ITrackable)entity).Id);
+            else Entity = Service.Find(entity.Id);
         }
     }
 }

@@ -12,16 +12,16 @@ namespace Expenses.UI.Exercises
         private readonly ExpenseService _expenses;
         private readonly WithdrawalService _withdrawals;
         
-        public ExerciseSummaryViewModel(Exercise entity = null)
+        public ExerciseSummaryViewModel(Exercise oldExercise = null)
             : base(ExerciseService.Instance)
         {
             _withdrawals = WithdrawalService.Instance;
             _expenses = ExpenseService.Instance;
 
-            SetEntity(entity);
-            Entity.IsClosed = true;
+            //SetEntity(oldExercise);
+            //Entity.IsClosed = true;
 
-            CalculateTotals();
+            CalculateTotals(oldExercise);
         }
 
         public override object Title => "Exercise";
@@ -29,10 +29,10 @@ namespace Expenses.UI.Exercises
         public static ExerciseSummaryViewModel Instance(Exercise entity = null) =>
             ViewModelSource.Create(() => new ExerciseSummaryViewModel(entity));
 
-        private void CalculateTotals()
+        private void CalculateTotals(Exercise oldExercise)
         {
-            ExpensesTotal = _expenses.GetTotalByExercise(Entity);
-            WithdrawalsTotal = _withdrawals.GetTotalByExercise(Entity);
+            ExpensesTotal = _expenses.GetTotalByExercise(oldExercise);
+            WithdrawalsTotal = _withdrawals.GetTotalByExercise(oldExercise);
             Balance = WithdrawalsTotal + Entity.Balance - ExpensesTotal;
         }
 

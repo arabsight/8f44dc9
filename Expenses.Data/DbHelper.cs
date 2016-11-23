@@ -11,7 +11,7 @@ namespace Expenses.Data
             {
                 var builder = new SqlCeConnectionStringBuilder
                 {
-                    DataSource = @"C:\Users\Arabsight\documents\visual studio 2015\Projects\Expenses\Expenses.Data\Database.sdf"
+                    DataSource = @"D:\Programming\Projects\Expenses\Expenses.Data\Database.sdf"
                 };
 
                 return new SqlCeConnection(builder.ToString());

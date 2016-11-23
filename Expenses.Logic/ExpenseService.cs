@@ -4,7 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using Expenses.Core;
 using Expenses.Core.Helpers;
-using Expenses.Logic.Validation;namespace Expenses.Logic
+using Expenses.Logic.Validation;
+
+namespace Expenses.Logic
 {
     public class ExpenseService : Service<Expense>
     {
@@ -16,13 +18,14 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
         {
             return Get(e => e.ExerciseId == exercise, e => e.Category, e => e.ReceiptType);
         }
-        
+
         public decimal GetTotalByExercise(Exercise exercise)
         {
-            return DbSet.Where(e => e.ExerciseId == exercise.Id).Sum(e => e.Amount);
+            var query = DbSet.Where(e => e.ExerciseId == exercise.Id);
+            return query.Any() ? query.Sum(e => e.Amount) : 0;
         }
 
-        public List<ExpenseTotal> GetMonthlyTotalsByCategory(Exercise exercise)
+        public IEnumerable<ExpenseTotal> GetMonthlyTotalsByCategory(Exercise exercise)
         {
             var result = DbSet
                 .Include(e => e.Category)
@@ -35,11 +38,11 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
                     Exercise = g.Key.Date,
                     Amount = g.Sum(e => e.Amount)
                 });
-            
+
             return result.ToList();
         }
 
-        public List<ExpenseTotal> GetGlobalTotalsByCategory()
+        public IEnumerable<ExpenseTotal> GetGlobalTotalsByCategory()
         {
             var result = DbSet
                 .Include(e => e.Category)
@@ -53,17 +56,17 @@ using Expenses.Logic.Validation;namespace Expenses.Logic
             return result.ToList();
         }
 
-        public List<ExpenseTotal> GetGlobalTotalsByDate()
+        public IEnumerable<ExpenseTotal> GetGlobalTotalsByDate()
         {
             var result = DbSet
-                .GroupBy(n => new { n.Date })
+                .GroupBy(n => new {n.Date})
                 .Select(g => new ExpenseTotal
                 {
                     Date = g.Key.Date,
                     Amount = g.Sum(e => e.Amount)
                 });
 
-            return result.ToList();}
-        
+            return result.ToList();
+        }
     }
 }

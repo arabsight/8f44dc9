@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using Expenses.Core;
 using Expenses.Logic.Validation;
 
@@ -7,23 +6,23 @@ namespace Expenses.Logic
 {
     public class WithdrawalService : Service<Withdrawal>
     {
-        public WithdrawalService() : base(WithdrawalValidator.Default) {}
+        public WithdrawalService() 
+            : base(WithdrawalValidator.Default) {}
 
         public static WithdrawalService Instance => new WithdrawalService();
 
-        public ObservableCollection<Withdrawal> GetByExercise(int exercise)
+        public decimal GetTotalByExercise(Exercise exercise, bool withBalance = true)
         {
-            return Get(e => e.ExerciseId == exercise);
-        }
+            var query = DbSet.Where(e => e.ExerciseId == exercise.Id);
 
-        //public void TrySave(Withdrawal entity)
-        //{
-        //    Save(entity, WithdrawalValidator.Default);
-        //}
+            if (withBalance)
+            {
+                return query.Any() 
+                    ? query.Sum(e => e.Amount) + exercise.Balance 
+                    : exercise.Balance;
+            }
 
-        public decimal GetTotalByExercise(Exercise exercise)
-        {
-            return DbSet.Where(e => e.ExerciseId == exercise.Id).Sum(e => e.Amount) + exercise.Balance;
+            return query.Any() ? query.Sum(e => e.Amount) : 0;
         }
     }
 }

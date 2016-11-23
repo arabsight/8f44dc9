@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
-using Expenses.Core;
+using DevExpress.Mvvm;
+using DevExpress.Mvvm.DataAnnotations;
 using Expenses.Core.Helpers;
 using Expenses.Logic;
 using Expenses.UI.Common;
 
 namespace Expenses.UI.Dashboard
 {
-    public class DashboardViewModel : EntitiesViewModel<Expense>
+    [POCOViewModel]
+    public class DashboardViewModel : ISupportNavigation, IViewModel
     {
         private readonly ExpenseService _expenses;
         private readonly WithdrawalService _withdrawals;
@@ -17,7 +19,7 @@ namespace Expenses.UI.Dashboard
             _withdrawals = WithdrawalService.Instance;
         }
 
-        public override string Title => "Tableau de bord";
+        public virtual Session Session => Session.Default;
 
         public virtual decimal MonthlyWithdrawalsTotal { get; set; }
         public virtual decimal MonthlyExpensesTotal { get; set; }
@@ -26,16 +28,22 @@ namespace Expenses.UI.Dashboard
         public virtual decimal Balance { get; set; }
         public virtual decimal RealBalance { get; set; }
 
-        public virtual List<ExpenseTotal> GlobalExpensesPerDate { get; set; }
+        public virtual IEnumerable<ExpenseTotal> GlobalExpensesPerDate { get; set; }
 
-        public virtual List<ExpenseTotal> GlobalExpensesPerCategory { get; set; }
-        public virtual List<ExpenseTotal> MonthlyExpensesPerCategory { get; set; }
+        public virtual IEnumerable<ExpenseTotal> GlobalExpensesPerCategory { get; set; }
+        public virtual IEnumerable<ExpenseTotal> MonthlyExpensesPerCategory { get; set; }
 
-        public override void OnNavigatedTo()
+        public void OnNavigatedTo()
         {
             CalculateTotals();
             GetDataForCharts();
         }
+
+        public void OnNavigatedFrom() {}
+
+        public object Parameter { get; set; }
+
+        public string Title => "Tableau de bord";
 
         private void GetDataForCharts()
         {

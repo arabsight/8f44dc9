@@ -19,16 +19,16 @@ namespace Expenses.UI.Shell
     [POCOViewModel]
     public class ShellViewModel
     {
-        private readonly ExerciseService _exerciseService;
-        private readonly UserService _userService;
+        private readonly ExerciseService _exercises;
+        private readonly UserService _users;
         private ExerciseViewModel _exerciseVm;
         private LoginViewModel _loginVm;
 
         public ShellViewModel()
         {
             Session = Session.Default;
-            _userService = UserService.Instance;
-            _exerciseService = ExerciseService.Instance;
+            _users = UserService.Instance;
+            _exercises = ExerciseService.Instance;
         }
 
         public virtual string Title { get; protected set; }
@@ -52,18 +52,17 @@ namespace Expenses.UI.Shell
 
         public void Initialize()
         {
-            ShowSplashScreen();
+            LoadExercises();
             ShowLoginDialog();
             if (Session.Exercise == null)
                 ShowExerciseDialog();
-
         }
 
-        private void ShowSplashScreen()
+        private void LoadExercises()
         {
             SplashScreenService.ShowSplashScreen();
-            Exercises = _exerciseService.Get();
-            Session.Exercise = _exerciseService.CurrentExercise;
+            Exercises = _exercises.Get();
+            Session.Exercise = _exercises.One(e => e.IsCurrent);
             SplashScreenService.HideSplashScreen();
         }
 
@@ -129,15 +128,11 @@ namespace Expenses.UI.Shell
         {
             try
             {
-                var exercise = _exerciseVm.Exercise;
-                exercise.Date = new DateTime(exercise.Date.Year, exercise.Date.Month, 1);
-                _exerciseService.SetAdded(exercise);
-                _exerciseService.Save(exercise);
-                Session.Exercise = exercise;
+                Session.Exercise = _exercises.Create(_exerciseVm.Exercise);
             }
             catch (Exception ex)
             {
-                MessageBoxService.Show(ex.Message, "Validation",
+                MessageBoxService.Show(ex.Message, "Erreur",
                     MessageButton.OK, MessageIcon.Error, MessageResult.OK);
             }
         }
@@ -155,9 +150,9 @@ namespace Expenses.UI.Shell
 
         private void OnLoginAttempt(CancelEventArgs e)
         {
-            if (_userService.Attempt(_loginVm.Username, _loginVm.Password))
+            if (_users.Attempt(_loginVm.Username, _loginVm.Password))
             {
-                Session.Identity = _userService.Identity;
+                Session.Identity = _users.Identity;
                 _loginVm.Reset();
                 IsAuthenticated = true;
             }

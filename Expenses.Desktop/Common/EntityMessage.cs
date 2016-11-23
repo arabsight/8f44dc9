@@ -1,4 +1,6 @@
-﻿namespace Expenses.UI.Common
+﻿using Expenses.Core.Shared;
+
+namespace Expenses.UI.Common
 {
     public enum MessageType
     {
@@ -7,7 +9,7 @@
         Modified
     }
 
-    public class EntityMessage<T> where T : class
+    public class EntityMessage<T> where T : ITrackable
     {
         public EntityMessage(T entity, MessageType type)
         {

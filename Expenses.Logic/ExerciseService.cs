@@ -1,4 +1,5 @@
-﻿using Expenses.Core;
+﻿using System;
+using Expenses.Core;
 using Expenses.Logic.Validation;
 
 namespace Expenses.Logic
@@ -9,11 +10,12 @@ namespace Expenses.Logic
 
         public static ExerciseService Instance => new ExerciseService();
 
-        public Exercise CurrentExercise => One(e => e.IsCurrent);
-
-        public void Close(Exercise entity)
+        public Exercise Create(Exercise exercise)
         {
-            
+            exercise.Date = new DateTime(exercise.Date.Year, exercise.Date.Month, 1);
+            SetAdded(exercise);
+            Save(exercise);
+            return exercise;
         }
     }
 }
